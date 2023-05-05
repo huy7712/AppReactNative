@@ -1,0 +1,39 @@
+export default {
+    h1:{
+        color:'black',
+        fontWeight:'bold',
+        fontSize:25,
+        alignSelf:'center',
+        marginTop:20,          
+    },
+    h3:{
+        color:'black',
+        fontSize:20,
+        fontWeight:'bold',
+        alignSelf:'center',
+        marginTop:10
+    },
+    h5:{
+        color:'black',
+        fontWeight:'bold',
+        fontSize:15
+    },
+    h6:{
+        color:'black',
+        fontSize:15,
+        paddingTop:10
+    },
+    BOM:{
+        color:'black',
+        fontWeight:'bold',
+        fontSize:15,
+        alignSelf:'center'
+    },
+    Textbtn:{
+        
+        color:'black',
+        fontSize:15,    
+        alignSelf:'center',
+        
+    }
+}
