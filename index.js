@@ -11,6 +11,6 @@ import AppNav from './navigation/App';
 import io from "socket.io-client"
 import UITabs from './navigation/UITab';
 
-AppRegistry.registerComponent(appName, () => ()=> <AppNav/>)
+AppRegistry.registerComponent(appName, () => ()=> <Nhakinh/>)
 
-this.socket = io ("http://192.168.105.44:1234", {jsonp:false}) 
+this.socket = io ("http://192.168.137.100:1234", {jsonp:false}) 

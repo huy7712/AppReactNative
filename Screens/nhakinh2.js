@@ -55,12 +55,26 @@ function Nhakinh2(props) {
                 <Text style={text.h5}>PH</Text>
                 <Text style={text.h6}>dalk</Text>
             </View>
+            
             <View style={borders.borderElementText}>
-                <Text style={text.h5}>NPK</Text>
+                <Text style={text.h5}>Do Am</Text>
+                <Text style={text.h6}>dalk</Text>
+            </View>
+        </View>
+        <View style={{
+            flexDirection: 'row',
+            paddingTop: 10
+        }}>
+            <View style={borders.borderElementText}>
+                <Text style={text.h5}>N</Text>
                 <Text style={text.h6}>dalk</Text>
             </View>
             <View style={borders.borderElementText}>
-                <Text style={text.h5}>Do Am</Text>
+                <Text style={text.h5}>P</Text>
+                <Text style={text.h6}>dalk</Text>
+            </View>
+            <View style={borders.borderElementText}>
+                <Text style={text.h5}>K</Text>
                 <Text style={text.h6}>dalk</Text>
             </View>
         </View>

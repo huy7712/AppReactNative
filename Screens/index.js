@@ -5,9 +5,9 @@ import FootList from './FootList'
 import Nhakinh from './nhakinh1'
 import AppSocket from './Socketio'
 import Setting from './setting'
-// import Profiles from './Profile'
+import Profiles from './Profile'
 import Nhakinh2 from './nhakinh2'
-import { Profiles,LoginSceens } from './login'
+import {LoginSceens } from './login'
 
 export {
     LoginSceens,

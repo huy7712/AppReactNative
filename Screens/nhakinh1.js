@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import {
     TextInput, Text, View, ScrollView
 } from '../node_modules/react-native'
@@ -8,14 +8,53 @@ import Chart from './chartmodul'
 import Btndevices from '../components/btnmanual'
 import Btndisdevices from '../components/btnauto'
 import borders from '../components/borders'
+import moment from 'moment'
 export default Nhakinh
-import io from "socket.io-client"
 
 
 function Nhakinh(props) {
     const [selectedValue, setSelectedValue] = useState('1');
     const [selectedValue2, setSelectedValue2] = useState('manual');
+    const [humidity,setHumidity]=useState('')
+    // const [data, setData] = useState([]);
     // this.socket = io ("http://192.168.1.11:3000", {jsonp:false})  
+
+    socket.on('S-ReadADC', (value) => {
+        
+            setHumidity (value.toFixed(0) + "%")  
+    })
+
+    const [valueChart, setValueChart] = useState([0,0,0,0,0,0]);
+    const [timeChart, setTimeChart] = useState([0,0,0,0,0,0]);
+
+// useEffect(() => {
+//   function fetchData(){
+//     fetch('http://192.168.137.100:1234/api/adc1Start')
+//     .then(response => response.json())
+//     .then(json => {
+//       const data = json; // Lưu trữ dữ liệu vào biến trung gian
+//       const updatedValueChart = [];
+//       const updatedTimeChart = [];
+//       data.forEach((item) => {
+//         let localTime = moment.utc(item.time).utcOffset("+07:00").format("HH:mm:ss");
+//         updatedValueChart.unshift(item.value);
+//         updatedTimeChart.unshift(localTime);
+//       });
+//       setValueChart(updatedValueChart);
+//       setTimeChart(updatedTimeChart);
+//       console.log(timeChart)
+//       console.log(valueChart)
+//       // Hiển thị updatedValueChart trong cảnh báo
+//     })
+//     .catch(error => console.error(error));
+// }
+//     setInterval(fetchData,5000)
+// }
+// , []);
+
+
+
+
 
     return <ScrollView >
 
@@ -56,11 +95,24 @@ function Nhakinh(props) {
                 <Text style={text.h6}>dalk</Text>
             </View>
             <View style={borders.borderElementText}>
-                <Text style={text.h5}>NPK</Text>
+                <Text style={text.h5}>Do Am</Text>
+                <Text style={text.h6}>{humidity}</Text>
+            </View>
+        </View>
+        <View style={{
+            flexDirection: 'row',
+            paddingTop: 10
+        }}>
+            <View style={borders.borderElementText}>
+                <Text style={text.h5}>N</Text>
                 <Text style={text.h6}>dalk</Text>
             </View>
             <View style={borders.borderElementText}>
-                <Text style={text.h5}>Do Am</Text>
+                <Text style={text.h5}>P</Text>
+                <Text style={text.h6}>dalk</Text>
+            </View>
+            <View style={borders.borderElementText}>
+                <Text style={text.h5}>K</Text>
                 <Text style={text.h6}>dalk</Text>
             </View>
         </View>
@@ -92,8 +144,8 @@ function Nhakinh(props) {
             }}>
                 {/* Bieu Do */}
                 <Chart
-                    datas={[20, 45, 28, 80, 99, 43]}
-                    labels={['January', 'February', 'March', 'April', 'May', 'June']}
+                    datas={valueChart}
+                    labels={timeChart}
                     coment='xin chao' />
             </View>
         </View>

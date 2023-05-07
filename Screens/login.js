@@ -5,7 +5,7 @@ import { isValidatePass,isValidating } from '../utilies/validating'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import Spinner from 'react-native-loading-spinner-overlay/lib'
 import bcrypt from 'react-native-bcrypt'
-export {LoginSceens, Profiles}
+export {LoginSceens}
 
 
 const UseConText = createContext()
@@ -41,7 +41,9 @@ function LoginSceens(props) {
       .catch(error => console.error(error));
   }, []);
 
-     hashedPassword=data.find(item=> item.password==password)   
+     
+     
+
     return <TouchableWithoutFeedback onPress={dismissKeyborad}>
         <KeyboardAvoidingView style={{
             flex: 100,
@@ -109,7 +111,10 @@ function LoginSceens(props) {
                             setEmail(text)                           
                         }              
                     }
-                    onEndEditing={()=>setUser(data.find(item=> item.email===email))}
+                    onEndEditing={()=>{setUser(data.find(item=> item.email===email))
+                        navigation.setParams({ user })
+                    }}
+                    
                     keyboardType="email-address">
 
                 </TextInput>
@@ -142,7 +147,7 @@ function LoginSceens(props) {
                 </TextInput>
                 <Text style={{color:'red'}}>{errorPassword}</Text>
             </View>
-
+            
             <View style={{
                 flex: 10,
             }}>
@@ -308,8 +313,3 @@ function LoginSceens(props) {
 }
 
 
-function Profiles(props){
-    return<View>
-        <Text>HELLO</Text>
-    </View>
-}
