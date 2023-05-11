@@ -1,64 +1,112 @@
-import { Nhakinh,Setting } from "../Screens";
-import React, { useState,useEffect } from 'react'
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { icons } from "../constants";
-import Icon from 'react-native-vector-icons/FontAwesome5'
-import { SafeAreaView } from "react-native-safe-area-context";
-import {TextInput, Text, View, Image, ImageBackground, TouchableOpacity, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Platform, Alert, ScrollView, FlatList } from 'react-native'
-import {
-    user as UserRepository,
-    population as PopulationRepository
-} from '../repositories'
-import ART from 'react-native'
+import React, { useContext } from 'react';
+import { DataContext } from './getdata';
+import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
+import { images } from '../constants';
+
+const Profile = () => {
+  const { profileData } = useContext(DataContext);
+  // Sử dụng dữ liệu profileData trong màn hình profiles
+  // { username: 'JohnDoe', email: 'johndoe@example.com' }
+  return <View style={{
+    flex: 1
+  }}>
+    {/* <Text>User Name: {profileData.name}</Text>
+      <Text>Name: {profileData.name}</Text>
+      <Text>Email: {profileData.email}</Text> */}
+    <ImageBackground source={images.ProfileBackground}
+      resizeMode='cover'
+      style={{
+        flex: 1,
+      }}>
+      <View style={{
+        alignSelf: 'center',
+        borderWidth: 2,
+        paddingHorizontal: 20,
+        marginTop: 20,
+        borderRadius: 20,
+        backgroundColor: 'white'
+      }}>
+        <Text style={{
+          color: 'black',
+          fontSize: 20,
+          fontWeight: 'bold'
+        }}>THONG TIN DANG NHAP</Text>
+      </View>
+      <View style={{
+        backgroundColor: 'red',
+        width: 150,
+        height: 150,
+        borderRadius: 150,
+        alignSelf: 'center',
+        top: 100,
+        zIndex: 1
+      }}>
+      </View>
+      <View style={{
+        backgroundColor: 'white',
+        width: 350,
+        height: 400,
+        position: 'absolute',
+        alignSelf: 'center',
+        top: 235,
+        borderRadius: 50
+      }}>
+        <View style={{
+          height: 90,
+        }} />
+        <View style={{
+          height: 40,
+          justifyContent: 'center',
+          marginHorizontal: 20
+        }}>
+          <Text style={{
+            color: 'black'
+          }}>Name: {profileData.name}</Text>
+        </View>
+        <View style={{
+          backgroundColor:'gray',
+          width:2,
+        }}/>
+        <View style={{
+          height: 40,
+          justifyContent: 'center',
+          marginHorizontal: 20
+        }}>
+          <Text style={{
+            color: 'black'
+          }}>User Name: {profileData.name}</Text>
+        </View>
+        <View style={{
+          height: 40,
+          justifyContent: 'center',
+          marginHorizontal: 20
+        }}>
+          <Text style={{
+            color: 'black'
+          }}>Email: {profileData.email}</Text>
+        </View>
+        <View style={{flex:1}}/>
+        <TouchableOpacity style={{
+          backgroundColor:'yellow',
+          paddingHorizontal:20,
+          borderWidth:2,
+          alignSelf:'center',
+          borderRadius:20,
+          marginBottom:20
+        }}>
+          <Text style={{
+            color:'black',
+            fontSize:20,
+            fontWeight:'bold'
+          }}>Log Out</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
 
 
-// function Profiles(){
-//     UserRepository.getUseeDetail()
-//     return <SafeAreaView style={{
-//         flex:1,
-//         backgroundColor:'green'
-//     }}>
-//         <Text>This is profile</Text>
-//     </SafeAreaView>
-// }
 
-export default Profiles
-
-const { Path, Shape, Surface } = ART;
-function Profiles({ route }){
-    
-    // UserRepository.getUseeDetail()
-    // return<View style={{
-    //     flex:1,
-        
-    // }}>
-    //     <Text >This is profile</Text>
-    // </View>
-//     const [data, setData] = useState([]);
-
-//   useEffect(() => {
-//     fetch('https://raw.githubusercontent.com/huy7712/datajsonrandom/main/datatest%20(1).json')
-//       .then(response => response.json())
-//       .then(json => setData(json))
-//       .catch(error => console.error(error));
-//   }, []);
-
-  return (
-    <View>
-      <Text>API Data:</Text>
-      
-      {/* <FlatList
-        data={data}
-        keyExtractor={({ id }) => id.toString()}
-        renderItem={({ item }) => (
-          <View>
-            <Text>{item.id}</Text>
-            <Text>{item.email}</Text>
-            <Text>{item.body}</Text>
-          </View>
-        )}
-      /> */}
-      
-    </View>
-  );
+  </View>
+  // ...
 };
+
+export default Profile

@@ -1,8 +1,8 @@
-import { Nhakinh,Setting,Profiles,Nhakinh2 } from "../Screens";
+import { Nhakinh,Setting,Profiles,Nhakinh2,HomeScreen, ChartScreens } from "../Screens";
+
 import * as React from 'react'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from 'react-native-vector-icons/FontAwesome5'
-
 
 const Tab= createBottomTabNavigator();
 const screenOptionss=({route})=>({
@@ -12,11 +12,14 @@ const screenOptionss=({route})=>({
     tabBarIcon:({focused,color,size})=>{
         let iconName=''
         let screenName=route.name
-        if (screenName=='Nhakinh'){
+        // if (screenName=='Nhakinh'){
+        //     iconName='home'
+        // }
+        if (screenName=='HomeScreen'){
             iconName='home'
         }
-        if (screenName=='Nhakinh2'){
-            iconName='home'
+        if (screenName=='Chart'){
+            iconName='chart-line'
         }
         if (screenName=='Setting'){
             iconName='cog'
@@ -33,8 +36,8 @@ const screenOptionss=({route})=>({
 })
 function UITabs(){
     return <Tab.Navigator screenOptions={screenOptionss}>
-        <Tab.Screen name={'Nhakinh'} component={Nhakinh}/>
-        <Tab.Screen name={'Nhakinh2'} component={Nhakinh2}/>
+        <Tab.Screen name={'HomeScreen'} component={HomeScreen}/>
+        <Tab.Screen name={'Chart'} component={ChartScreens}/>
         <Tab.Screen name={'Setting'} component={Setting}/>
         <Tab.Screen name={'Profile'} component={Profiles}/>
     </Tab.Navigator>

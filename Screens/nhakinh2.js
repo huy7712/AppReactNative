@@ -1,145 +1,432 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
-    TextInput, Text, View, ScrollView
+    TextInput, Text, View, ScrollView, Image, ImageBackground,
+    FlatList,TouchableOpacity
 } from '../node_modules/react-native'
-import { Picker } from '@react-native-picker/picker'
-import text from '../components/text'
-import Chart from './chartmodul'
-import Btndevices2 from '../components/btnmanual2'
-import Btndisdevices from '../components/btnauto'
-import borders from '../components/borders'
+import Icon from 'react-native-vector-icons/FontAwesome5'
+import { icons, images } from '../constants'
+import WeatherScreen from '../utilies/UpdateLocalData'
+import moment from 'moment'
+import ProGChart from './chartmodule/progresschart'
 export default Nhakinh2
-import io from "socket.io-client"
 
 
 function Nhakinh2(props) {
-    const [selectedValue3, setSelectedValue3] = useState('1');
-    const [selectedValue4, setSelectedValue4] = useState('manual');
-    // this.socket = io ("http://192.168.1.11:3000", {jsonp:false})  
+    const dataH = {
+        data: [0.42]
+    }
+    const dataH2 = {
+        data: [0.38]
+    }
 
-    return <ScrollView >
+    const [menu,setmenu]=useState([
+        {
+            name:'Lamp',
+            icon:'lightbulb'
+        },
+        {
+            name:'Fan',
+            icon:'fan'
+        },
+        {
+            name:'Pump1',
+            icon:'faucet'
+        },
+        {
+            name:'Pump2',
+            icon:'faucet'
+        },
+        {
+            name:'Pump3',
+            icon:'faucet'
+        },
+        {
+            name:'Pump4',
+            icon:'faucet' 
+        },
+    ])
 
-        <Text
-            style={text.h1}
 
-        >Nha Kinh 2</Text>
-        <Text style={text.h3}>
-            YEU TO MOI TRUONG
-        </Text>
+
+    return <ScrollView style={{
+        flex: 1,
+        backgroundColor: '#F5F5F5',
+    }}>
+        <Text style={{
+            color:'black',
+            fontSize:23,
+            fontWeight:'bold',
+            alignSelf:'center',
+            marginTop:10,
+            marginBottom:10
+        }}>NHA KINH 2</Text>
         <View style={{
+            height: 100,
             flexDirection: 'row',
-            paddingTop: 20
+            borderWidth: 3,
+            borderRadius: 30,
+            marginHorizontal: 5,
+            justifyContent: 'center',
+            backgroundColor: 'white'
         }}>
-            <View style={borders.borderElementText}>
-                <Text style={[text.h5]}>Nhiet Do</Text>
-                <Text style={text.h6}>dalk</Text>
-            </View>
-            <View style={borders.borderElementText}>
-                <Text style={text.h5}>Ánh Sáng</Text>
-                <Text style={text.h6}>dalk</Text>
-            </View>
-            <View style={borders.borderElementText}>
-                <Text style={text.h5}>Do Am</Text>
-                <Text style={text.h6}>dalk</Text>
+            <Icon
+                name={'cloud-sun'}
+                size={70}
+                color={'#FA7A48'}
+            ></Icon>
+            <View style={{ width: 40 }}></View>
+            <View>
+                <WeatherScreen />
             </View>
         </View>
-        <Text style={text.h3}>
-            YEU TO TRONG DAT
-        </Text>
-
         <View style={{
-            flexDirection: 'row',
-            paddingTop: 20
+            marginTop: 10,
+            alignItems: 'center'
         }}>
-            <View style={borders.borderElementText}>
-                <Text style={text.h5}>PH</Text>
-                <Text style={text.h6}>dalk</Text>
+            <Text style={{
+                color: 'black',
+                fontSize: 16,
+                fontWeight: 'bold'
+            }}>SENSOR</Text>
+        </View>
+        {/* NHIET DO */}
+        <View style={{
+            height: 80,
+            flexDirection: 'row',
+            marginHorizontal: 20,
+            marginTop: 20,
+
+        }}>
+            <View style={{
+                flex: 30,
+                backgroundColor: 'white',
+                marginEnd: 5,
+                flexDirection: 'row',
+                borderWidth: 2,
+                borderRadius: 20,
+                alignItems: 'center'
+            }}>
+                <Image source={icons.temperature} style={{
+                    width: 45,
+                    height: 45
+                }} />
+                <View style={{
+                    marginStart: 10
+                }}>
+                    <Text style={{
+                        color: "black",
+                        fontSize: 14,
+
+                    }}>Temperature:</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={{
+                            color: 'black',
+                            fontWeight: 'bold',
+                            marginEnd: 3
+                        }}>32
+                        </Text>
+                        <View style={{
+                            paddingTop: 4
+                        }}
+                        ><Icon name={'circle'} size={7} /></View>
+                        <Text style={{
+                            color: 'black',
+                            fontWeight: 'bold'
+                        }}>C
+                        </Text>
+                    </View>
+                </View>
             </View>
+            {/* ANH SANG */}
+            <View style={{
+                flex: 30,
+                marginStart: 5,
+                backgroundColor: 'white',
+                flexDirection: 'row',
+                alignItems: 'center',
+                borderWidth: 2,
+                borderRadius: 20
+            }}>
+                <Image source={icons.sun} style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: 100
+                }} />
+                <View style={{ marginStart: 10 }}>
+                    <Text style={{
+                        color: "black",
+                        fontSize: 14,
+                    }}>LINGHT:</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={{
+                            color: 'black',
+                            fontWeight: 'bold',
+                            marginEnd: 3
+                        }}>32 lux
+                        </Text>
+                    </View>
+                </View>
+            </View>
+
+        </View>
+        {/*  */}
+        {/*  */}
+        {/* DO AM DAT VA KHONG KHI */}
+        <View style={{
+            height: 155,
+            marginTop: 20,
+            flexDirection: 'row',
+            marginHorizontal: 20,
+        }}>
+            {/*  */}
+            {/*  */}
+            {/* DO AM KHONG KHI */}
+            <View style={{
+                flex: 50,
+                backgroundColor: 'white',
+                marginEnd: 5,
+                borderWidth: 3,
+                borderRadius: 20
+            }}>
+                <View style={{
+                    flex: 30,
+                    flexDirection: 'row',
+                    marginTop: 4
+                }}>
+                    <Image source={icons.humidity} style={{
+                        width: 45,
+                        height: 45
+                    }} />
+                    <View style={{
+                        marginStart: 10
+                    }}>
+                        <Text style={{
+                            color: 'black',
+                        }}>HUMIDITY:</Text>
+                        <Text style={{
+                            color: 'black'
+                        }}>{dataH.data * 100}%</Text>
+                    </View>
+                </View>
+                <View style={{
+                    flex: 60,
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>
+                    <ProGChart data={dataH} />
+                    <Text style={{
+                        position: 'absolute',
+                        color: 'black',
+                        fontSize: 15
+                    }}
+                    >{dataH.data * 100}</Text>
+                </View>
+            </View>
+            {/* DO AM DAT */}
+            <View style={{
+                flex: 50,
+                backgroundColor: 'white',
+                marginEnd: 5,
+                borderWidth: 3,
+                borderRadius: 20
+            }}>
+                <View style={{
+                    flex: 30,
+                    flexDirection: 'row',
+                    marginTop: 4
+                }}>
+                    <Image source={icons.SoilMoisture} style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: 30,
+                        marginStart: 2
+                    }} />
+                    <View style={{
+                        marginStart: 10
+                    }}>
+                        <Text style={{
+                            color: 'black',
+                        }}>Soil Moisture:</Text>
+                        <Text style={{
+                            color: 'black'
+                        }}>{dataH2.data * 100}%</Text>
+                    </View>
+                </View>
+                <View style={{
+                    flex: 60,
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>
+                    <ProGChart data={dataH2} />
+                    <Text style={{
+                        position: 'absolute',
+                        color: 'black',
+                        fontSize: 15
+                    }}
+                    >{dataH2.data * 100}</Text>
+                </View>
+            </View>
+        </View>
+        {/*  */}
+        {/*  */}
+        {/* NPK */}
+        <View style={{
+            height:130,
+            backgroundColor:'white',
+            marginTop:20,
+            marginHorizontal:20,
+            borderWidth:3,
+            borderRadius:20,
             
-            <View style={borders.borderElementText}>
-                <Text style={text.h5}>Do Am</Text>
-                <Text style={text.h6}>dalk</Text>
-            </View>
-        </View>
-        <View style={{
-            flexDirection: 'row',
-            paddingTop: 10
         }}>
-            <View style={borders.borderElementText}>
-                <Text style={text.h5}>N</Text>
-                <Text style={text.h6}>dalk</Text>
-            </View>
-            <View style={borders.borderElementText}>
-                <Text style={text.h5}>P</Text>
-                <Text style={text.h6}>dalk</Text>
-            </View>
-            <View style={borders.borderElementText}>
-                <Text style={text.h5}>K</Text>
-                <Text style={text.h6}>dalk</Text>
-            </View>
-        </View>
-
-        <View>
             <View style={{
-                borderWidth: 2,
-                width: 200,
-                alignSelf: 'center',
-                marginTop: 20
+                flex:30
             }}>
-                <Picker
-                    selectedValue={selectedValue3}
-                    onValueChange={(itemValue, itemIndex) =>
-                        setSelectedValue3(itemValue)
-                    }
-                    style={{
-                        width: 200,
-                        alignSelf: 'center',
-
-                    }}
-                >
-                    <Picker.Item label="5 Second" value="1" />
-                    <Picker.Item label="10 Second" value="2" />
-                </Picker>
+                <Text style={{
+                    color:'black',
+                    fontSize:20,
+                    fontWeight:'bold',
+                    alignSelf:'center'
+                }}>NPK</Text>
             </View>
             <View style={{
-                height: 250
+                flex:70,
+                flexDirection:'row',
+                alignItems:'center',
+                marginHorizontal:5
+                }}>
+                    <View style={{
+                flex:33.3333,
+                marginHorizontal:5,
+                alignItems:'center',
+                height:70
             }}>
-                {/* Bieu Do */}
-                <Chart
-                    datas={[20, 45, 28, 80, 99, 43]}
-                    labels={['January', 'February', 'March', 'April', 'May', 'June']}
-                    coment='xin chao' />
+                <Text style={{
+                    color:'black',
+                }}>Nitrogen:</Text>
+                <Text style={{
+                    color:'black',
+                }}>41</Text>
             </View>
-        </View>
-        {/* chon che do */}
-        <View>
-            <Text style={text.h3}>
-                CHON CHE DO
-            </Text>
-
             <View style={{
-                borderWidth: 2,
-                width: 200,
-                alignSelf: 'center',
-                marginTop: 20
+                flex:33.3333,
+                marginHorizontal:5,
+                alignItems:'center',
+                height:70  
             }}>
-                <Picker
-                    selectedValue={selectedValue4}
-                    onValueChange={(itemValue, itemIndex) =>
-                        setSelectedValue4(itemValue)
-                    }
-                    style={{
-                        width: 200,
-                        alignSelf: 'center',
-                    }}
-                >
-                    <Picker.Item label="MANUAL" value="manual" />
-                    <Picker.Item label="AUTO" value="auto" />
-
-                </Picker>
+                <Text style={{
+                    color:'black',
+                }}>Phosphorus:</Text>
+                <Text style={{
+                    color:'black',
+                }}>40</Text>
+            </View>
+            <View style={{
+                flex:33.3333,
+                marginHorizontal:5,
+                alignItems:'center',
+                height:70
+                }}>
+                    <Text style={{
+                    color:'black',
+                }}>Potassium:</Text>
+                    <Text style={{
+                    color:'black',
+                }}>41</Text>
+            </View>
             </View>
         </View>
-        {/* trang thai */}
-        {selectedValue4 === 'manual' ? <Btndevices2 /> : <Btndisdevices />}
+         {/*  */}
+            {/*  */}
+            {/* DEVICES */}
+            <View style={{
+                height:30,
+                marginTop:20,
+            }}>
+                <Text style={{
+                    fontSize:16,
+                    fontWeight:'bold',
+                    color:'black',
+                    marginHorizontal:20
+                }}
+                
+                >DEVICES</Text>
+            </View>
+            {/* <ScrollView style={{
+                height:90,
+                backgroundColor:'red',
+                marginTop:5,
+                marginStart:20,
+                flexDirection:'row'
+            }}> 
+                <View style={{
+                    alignItems:'center',
+                    marginHorizontal:10
+                }}>
+                <View style={{
+                    borderWidth:2,
+                    height:55,
+                    width:55,
+                    alignItems:'center',
+                    borderRadius:50
+                }}>
+                <Icon name={'lightbulb'} size={45} color={'black'}/>
+                </View>
+                <Text style={{
+                    color:'black',
+                    fontSize:15,
+                    marginTop:5
+                }}>Lamp</Text>
+                
+                </View>
+                
+            </ScrollView> */}
+            <View style={{
+        height:100
+    }}>
+        <View style={{height:3, backgroundColor:'gray'}}/>
+        <FlatList 
+        style={{
+            flex:1,
+            backgroundColor:'white'
+        }}
+        data={menu}
+        keyExtractor={item => item.name}
+        horizontal
+        renderItem={({item})=>{
+            return <View style={{
+                alignSelf:'center',
+                padding:12,
+                alignItems:'center',
+            }}>
+                <TouchableOpacity onPress={()=>{alert(`click ${item.name}`)}}>
+                <View style={{
+                    borderWidth:2,
+                    alignItems:'center',
+                    borderRadius:50,
+                    width:50,
+                    height:50,
+                    // backgroundColor:'#0099FF'
+                }}>
+                <Icon 
+                name={item.icon} 
+                color={'black'}
+                size={40}
+                />
+                </View>
+                <Text style={{
+                    color:'black',
+                    alignSelf:'center'
+                }}>
+                    {item.name}
+                </Text></TouchableOpacity>
+            </View>
+        }}
+        >
+
+        </FlatList>
+        <View style={{height:3, backgroundColor:'gray'}}/>
+
+    </View>
     </ScrollView>
 }

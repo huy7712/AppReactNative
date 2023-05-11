@@ -1,14 +1,15 @@
-import React, { useState,useEffect,createContext } from 'react'
+import React, { useState,useEffect,createContext,useContext } from 'react'
 import { images, icons } from '../constants/index'
-import { TextInput, Text, View, Image, ImageBackground, TouchableOpacity, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Platform, Alert } from '../node_modules/react-native'
+import { TextInput, Text, View, Image, ImageBackground, TouchableOpacity, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Platform, Alert } from 'react-native'
 import { isValidatePass,isValidating } from '../utilies/validating'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import Spinner from 'react-native-loading-spinner-overlay/lib'
+import { DataContext } from './getdata'
 import bcrypt from 'react-native-bcrypt'
-export {LoginSceens}
+export {LoginSceens
+}
 
 
-const UseConText = createContext()
 
 function LoginSceens(props) {
     const [email, setEmail] = useState('');
@@ -23,28 +24,35 @@ function LoginSceens(props) {
                                 isValidatePass(password)==true&&
                                 isValidating(email)==true
     // states to store email/password
-        // naivgation
-        const {navigation,route}=props
-        // funtion of navigate to/back
-        const {navigate,goback}=navigation
+        // // naivgation
+        // const {navigation,route}=props
+        // // funtion of navigate to/back
+        // const {navigate,goback}=navigation
 
+        const { navigation } = props;
+        const { navigate } = navigation;
     
-    
-
+        const { setProfileData } = useContext(DataContext)
     // get data from github
     const [data, setData] = useState([]);
+    const customRandomFallback = (size) => {
+        const buffer = require('react-native-randombytes').randomBytes(size);
+        return buffer.toString('hex');
+      };
+    bcrypt.setRandomFallback(customRandomFallback)
+
 
   useEffect(() => {
-    fetch('http://192.168.105.44:1234/api/user')
+    fetch('http://192.168.137.1:1234/api/user')
       .then(response => response.json())
       .then(json => setData(json))
       .catch(error => console.error(error));
   }, []);
 
-     
-     
+console.log(data)
 
-    return <TouchableWithoutFeedback onPress={dismissKeyborad}>
+    return (
+    <TouchableWithoutFeedback onPress={dismissKeyborad}>
         <KeyboardAvoidingView style={{
             flex: 100,
             backgroundColor: 'white'
@@ -101,18 +109,13 @@ function LoginSceens(props) {
                     // value='Email:'  
                     onChangeText={(text)=>
                         {
-                            // if (isValidating(text)==true){
-                            //     setErroEmail('Email not in correct format')
-                            // }
-                            // else {
-                            //     setErroEmail('')
-                            // }
                             setErroEmail(isValidating(text)==(true&&text.length>0)?'':'Email not in correct format')
                             setEmail(text)                           
                         }              
                     }
-                    onEndEditing={()=>{setUser(data.find(item=> item.email===email))
-                        navigation.setParams({ user })
+                    onEndEditing={()=>{
+                        setUser(data.find(item=> item.email===email)) 
+                        console.log(data.find(item=> item.email===email))      
                     }}
                     
                     keyboardType="email-address">
@@ -151,61 +154,12 @@ function LoginSceens(props) {
             <View style={{
                 flex: 10,
             }}>
-                {/* <TouchableOpacity>
-                    <Text style={{
-                        backgroundColor: isValidationOK()==true?'#FF3333':'gray',
-                        height: 40,
-                        width: 200,
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                        color: 'white',
-                        alignSelf: 'center',
-                        textAlign: 'center',
-                        borderRadius: 30
-                    }} 
-                    disabled={isValidationOK()== false }
-                    onPress={()=>{
-                        // const user=data.find(item=> item.email===email)
-                        // const hashedPassword=user.password
-                        // if (user.password==password){
-                        //     alert('dung')
-                        // // {navigate('UITabs')}
-                        // }
-                        // else{
-                        //     Alert.alert('Warning','Something went wrong \n Plese check your \n Email and Password')
-                        // }
-                        // alert(user)
-                        
-                        if (data.find(item=> item.email===email)){
-                        alert('doi xiu')
-                        bcrypt.compare(password, user.password, function(err, result) {
-                            if (err) {
-                              // Xử lý lỗi
-                              alert('Something went wrong')
-                            } else if (result) {
-                              // Mật khẩu đúng
-                              {navigate('UITabs')}
-                            } else {
-                              // Mật khẩu sai
-                              Alert.alert('Warning','Something went wrong \n Plese check your \n Email and Password')
-                            }
-                          })}
-                        else {
-                            alert('kiem tra email')
-                        }
-                    
-                    }}
-                    
-                    >
-                        LOGIN
-                    </Text>
-              
-                </TouchableOpacity> */}
-
 <TouchableOpacity
   disabled={isValidationOK() === false}
   onPress={() => {
-    if (data.find(item => item.email === email)) {
+
+    if (data.find(item => item.email === email)) {  
+        setProfileData(user)
       setLoading(true);
       bcrypt.compare(password, user.password, function(err, result) {
         if (err) {
@@ -218,12 +172,13 @@ function LoginSceens(props) {
           setLoading(false);
           Alert.alert(
             'Warning',
-            'Something went wrong \n Plese check your \n Email and Password',
+            'Something went wrong \n Please check your \n Email and Password',
           );
         }
-      });
+      }); 
     } else {
       alert('kiem tra email');
+      console.log(user)
     }
   }}>
   <Text style={{
@@ -309,6 +264,7 @@ function LoginSceens(props) {
             </View>
         </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
+    )
 
 }
 
