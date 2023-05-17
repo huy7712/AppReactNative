@@ -4,7 +4,6 @@ export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
   const [profileData, setProfileData] = useState(null);
-
   return (
     <DataContext.Provider value={{ profileData, setProfileData }}>
       {children}

@@ -3,5 +3,5 @@ export const isValidating =(stringEmail)=>{
     }
 // validate password
 export const isValidatePass=(stringPass)=>{
-    return (stringPass.length>=3)
+    return (stringPass.length>=1)
 }

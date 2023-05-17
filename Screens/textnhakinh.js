@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect,useContext } from 'react'
 import {
     TextInput, Text, View, ScrollView, Image, ImageBackground,
     FlatList, TouchableOpacity, Animated, StyleSheet
@@ -9,6 +9,7 @@ import WeatherScreen from '../utilies/UpdateLocalData'
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import moment from 'moment'
 import ProGChart from './chartmodule/progresschart'
+import { ModeContext } from './getMode'
 export default Nhakinh
 
 
@@ -19,93 +20,125 @@ function Nhakinh(props) {
     const dataH2 = {
         data: [0.38]
     }
+    const [getMode,setGetMode]=useState('')
 
-    const translateX = new Animated.Value(0);
-
-    const onGestureEvent = Animated.event(
-        [
-            {
-                nativeEvent: {
-                    translationX: translateX,
-                },
-            },
-        ],
-        { useNativeDriver: true }
-    );
-
-    // const onHandlerStateChange = event => {
-    //     if (event.nativeEvent.state === State.END) {
-    //       if (event.nativeEvent.translationX > 0) {
-    //         navigation.navigate('NhaKinh2');
-    //       } else {
-    //         // Điều hướng sang màn hình khác nếu vuốt về phía trái
-    //         // navigation.navigate('Screen3');
-    //       }
-    //     }
-    //   };
+    const [temI2C1,setTemI2C1] = useState('0')
+    const [humI2C1,setHumI2C1] = useState('0')
+    const [lightI2C1,setLightI2C1] = useState('0')
 
 
-    socket.on('display1', (data) => {
-        let jsonData = JSON.parse(data)
-        //console.log(jsonData)
-        let bit8 = jsonData.bit8
-        let bit7 = jsonData.bit7
-        let bit6 = jsonData.bit6
-        let bit5 = jsonData.bit5
-        let bit4 = jsonData.bit4
-        let bit3 = jsonData.bit3
-        switch (bit8) {
-            case 1:
-                setColorBtn('white');
-                break;
-            case 0:
-                setColorBtn('red');
-                break;
-        }
-        switch (bit7) {
-            case 1:
+    useEffect(()=>{
+        fetch('http://192.168.137.100:1234/api/getMode1')
+  .then(response => response.json())
+  .then(data => {
+    data.forEach((item) => {
+        setGetMode(item.mode)
+    })})
+    },[])
 
-                setColorBtn1('white');
-                break;
-            case 0:
+    useEffect(()=>{
+        socket.on('S-RequestI2C', (value) => {
+            let jsonData = JSON.parse(value);
+            console.log(jsonData);
+            switch (jsonData.i2ca) {
+                case 23:
+                    // lightI2C = (parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2)
+                    switch (jsonData.houseID) {
+                        case 1:
+                            setLightI2C1((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2));
+                            break
+                    }
+                    break
+                case 68:
+                    // temI2C = (parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) * 175 / 65535) - 45
+                    // humI2C = (parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535)
+                    switch (jsonData.houseID) {
+                        case 1:
+                            setTemI2C1((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) * 175 / 65535) - 45);
+                            setHumI2C1((parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535));
+                            break
+                    }
+                    break
+            }
+    
+            if (temI2C1||humI2C1||lightI2C1) {
+                setTemI2C1(temI2C1.toFixed(0))
+               
+    
+                setHumI2C1(humI2C1.toFixed(2))
+               
+    
+                setLightI2C1(lightI2C1.toFixed(1))
+            
+            }
+        })
+    },[])
 
-                setColorBtn1('red');
-                break;
-        }
-        switch (bit6) {
-            case 1:
-                setColorBtn2('white');
-                break;
-            case 0:
-                setColorBtn2('red');
-                break;
-        }
-        switch (bit5) {
-            case 1:
-                setColorBtn3('white');
-                break;
-            case 0:
-                setColorBtn('red');
-                break;
-        }
-        switch (bit4) {
-            case 1:
-                setColorBtn4('white');
-                break;
-            case 0:
-                setColorBtn4('red');
-                break;
-        }
-        switch (bit3) {
-            case 1:
-                setColorBtn5('white');
-                break;
-            case 0:
-                setColorBtn5('white');
-                break;
-        }
-    })
-    const getDataButtn = () => fetch('http://192.168.105.24:1234/api/getButton')
+    useEffect(()=>{
+        socket.on('display1', (data) => {
+            let jsonData = JSON.parse(data)
+            //console.log(jsonData)
+            let bit8 = jsonData.bit8
+            let bit7 = jsonData.bit7
+            let bit6 = jsonData.bit6
+            let bit5 = jsonData.bit5
+            let bit4 = jsonData.bit4
+            let bit3 = jsonData.bit3
+            switch (bit8) {
+                case 1:
+                    setColorBtn('white');
+                    break;
+                case 0:
+                    setColorBtn('red');
+                    break;
+            }
+            switch (bit7) {
+                case 1:
+    
+                    setColorBtn1('white');
+                    break;
+                case 0:
+    
+                    setColorBtn1('red');
+                    break;
+            }
+            switch (bit6) {
+                case 1:
+                    setColorBtn2('white');
+                    break;
+                case 0:
+                    setColorBtn2('red');
+                    break;
+            }
+            switch (bit5) {
+                case 1:
+                    setColorBtn3('white');
+                    break;
+                case 0:
+                    setColorBtn3('red');
+                    break;
+            }
+            switch (bit4) {
+                case 1:
+                    setColorBtn4('white');
+                    break;
+                case 0:
+                    setColorBtn4('red');
+                    break;
+            }
+            switch (bit3) {
+                case 1:
+                    setColorBtn5('white');
+                    break;
+                case 0:
+                    setColorBtn5('red');
+                    break;
+            }
+        })
+    },[])
+
+    useEffect(()=>{
+        fetch('http://192.168.137.100:1234/api/getButton')
         .then(response => response.json())
         .then(data => {
             data.forEach((item) => {
@@ -115,7 +148,7 @@ function Nhakinh(props) {
                 let bit5 = item.bit5;
                 let bit4 = item.bit4;
                 let bit3 = item.bit3;
-                console.log(ColorBtn)
+                console.log(data)
                 switch (bit8) {
                     case 1:
                         setColorBtn('white');
@@ -166,6 +199,7 @@ function Nhakinh(props) {
                 }
             })
         })
+    },[])
     // setInterval(getDataButtn, 500)
     const [ColorBtn, setColorBtn] = useState('');
     const [ColorBtn1, setColorBtn1] = useState('');
@@ -313,22 +347,22 @@ function Nhakinh(props) {
                                     color: "black",
                                     fontSize: 14,
 
-                                }}>Temperature:</Text>
+                                }}>Nhiệt Độ:</Text>
                                 <View style={{ flexDirection: 'row' }}>
                                     <Text style={{
                                         color: 'black',
                                         fontWeight: 'bold',
                                         marginEnd: 3
-                                    }}>32
+                                    }}>{temI2C1}
                                     </Text>
                                     <View style={{
                                         paddingTop: 4
                                     }}
-                                    ><Icon name={'circle'} size={7} /></View>
+                                    ></View>
                                     <Text style={{
                                         color: 'black',
                                         fontWeight: 'bold'
-                                    }}>C
+                                    }}>°C
                                     </Text>
                                 </View>
                             </View>
@@ -352,13 +386,13 @@ function Nhakinh(props) {
                                 <Text style={{
                                     color: "black",
                                     fontSize: 14,
-                                }}>LINGHT:</Text>
+                                }}>Ánh Sáng:</Text>
                                 <View style={{ flexDirection: 'row' }}>
                                     <Text style={{
                                         color: 'black',
                                         fontWeight: 'bold',
                                         marginEnd: 3
-                                    }}>32 lux
+                                    }}>{lightI2C1}
                                     </Text>
                                 </View>
                             </View>
@@ -398,10 +432,10 @@ function Nhakinh(props) {
                                 }}>
                                     <Text style={{
                                         color: 'black',
-                                    }}>HUMIDITY:</Text>
+                                    }}>Độ Ẩm:</Text>
                                     <Text style={{
                                         color: 'black'
-                                    }}>{dataH.data * 100}%</Text>
+                                    }}>{humI2C1}%</Text>
                                 </View>
                             </View>
                             <View style={{
@@ -415,7 +449,7 @@ function Nhakinh(props) {
                                     color: 'black',
                                     fontSize: 15
                                 }}
-                                >{dataH.data * 100}</Text>
+                                >{humI2C1}</Text>
                             </View>
                         </View>
                         {/* DO AM DAT */}
@@ -442,7 +476,7 @@ function Nhakinh(props) {
                                 }}>
                                     <Text style={{
                                         color: 'black',
-                                    }}>Soil Moisture:</Text>
+                                    }}>Độ Ẩm Đất:</Text>
                                     <Text style={{
                                         color: 'black'
                                     }}>{dataH2.data * 100}%</Text>
@@ -502,7 +536,7 @@ function Nhakinh(props) {
                                 }}>Nitrogen:</Text>
                                 <Text style={{
                                     color: 'black',
-                                }}>41</Text>
+                                }}>NaN</Text>
                             </View>
                             <View style={{
                                 flex: 33.3333,
@@ -515,7 +549,7 @@ function Nhakinh(props) {
                                 }}>Phosphorus:</Text>
                                 <Text style={{
                                     color: 'black',
-                                }}>40</Text>
+                                }}>NaN</Text>
                             </View>
                             <View style={{
                                 flex: 33.3333,
@@ -528,7 +562,7 @@ function Nhakinh(props) {
                                 }}>Potassium:</Text>
                                 <Text style={{
                                     color: 'black',
-                                }}>41</Text>
+                                }}>NaN</Text>
                             </View>
                         </View>
                     </View>
@@ -546,53 +580,14 @@ function Nhakinh(props) {
                             marginHorizontal: 20
                         }}
 
-                        >DEVICES</Text>
+                        >THIẾT BỊ</Text>
                     </View>
                     <View style={{
                         height: 100
                     }}>
                         <View style={{ height: 3, backgroundColor: 'gray' }} />
-                        {/* <FlatList
-                style={{
-                    flex: 1,
-                    backgroundColor: 'white'
-                }}
-                data={menu}
-                keyExtractor={item => item.name}
-                horizontal
-                renderItem={({ item }) => {
-                    return <View style={{
-                        alignSelf: 'center',
-                        padding: 12,
-                        alignItems: 'center',
-                    }}>
-                        <TouchableOpacity onPress={item.handlePress}>
-                            <View style={{
-                                borderWidth: 2,
-                                alignItems: 'center',
-                                borderRadius: 50,
-                                width: 50,
-                                height: 50,
-                                backgroundColor:item.color
-                            }}>
-                                <Icon
-                                    name={item.icon}
-                                    color={'black'}
-                                    size={40}
-                                />
-                            </View>
-                            <Text style={{
-                                color: 'black',
-                                alignSelf: 'center'
-                            }}>
-                                {item.name}
-                            </Text></TouchableOpacity>
-                    </View>
-                }}
-            >
-
-            </FlatList> */}
-                        <ScrollView
+                    
+                        {getMode=='0'?<ScrollView
                             horizontal
                             style={{
                                 flex: 1,
@@ -621,7 +616,7 @@ function Nhakinh(props) {
                                         color: 'black',
                                         alignSelf: 'center'
                                     }}>
-                                        Lamp
+                                        Đèn
                                     </Text></TouchableOpacity>
                             </View>
                             <View style={{
@@ -648,7 +643,7 @@ function Nhakinh(props) {
                                         color: 'black',
                                         alignSelf: 'center'
                                     }}>
-                                        Fan
+                                        Quạt
                                     </Text></TouchableOpacity>
                             </View>
                             <View style={{
@@ -675,7 +670,7 @@ function Nhakinh(props) {
                                         color: 'black',
                                         alignSelf: 'center'
                                     }}>
-                                        Pump1
+                                        Bơm 1
                                     </Text></TouchableOpacity>
                             </View>
                             <View style={{
@@ -702,7 +697,7 @@ function Nhakinh(props) {
                                         color: 'black',
                                         alignSelf: 'center'
                                     }}>
-                                        Pump2
+                                        Bơm 2
                                     </Text></TouchableOpacity>
                             </View>
                             <View style={{
@@ -729,7 +724,7 @@ function Nhakinh(props) {
                                         color: 'black',
                                         alignSelf: 'center'
                                     }}>
-                                        Pump3
+                                        Bơm 3
                                     </Text></TouchableOpacity>
                             </View>
                             <View style={{
@@ -737,7 +732,7 @@ function Nhakinh(props) {
                                 padding: 12,
                                 alignItems: 'center',
                             }}>
-                                <TouchableOpacity onPress={addlight6}>
+                                <TouchableOpacity onPress={addlight6} >
                                     <View style={{
                                         borderWidth: 2,
                                         alignItems: 'center',
@@ -756,10 +751,182 @@ function Nhakinh(props) {
                                         color: 'black',
                                         alignSelf: 'center'
                                     }}>
-                                        Pump4
+                                        Bơm 4
                                     </Text></TouchableOpacity>
                             </View>
-                        </ScrollView>
+                        </ScrollView>:
+                        // 
+                        // 
+                        // AUTO
+                        <ScrollView
+                        horizontal
+                        style={{
+                            flex: 1,
+                        }}>
+                        <View style={{
+                            alignSelf: 'center',
+                            padding: 12,
+                            alignItems: 'center',
+                        }}>
+                            <View>
+                                <View style={{
+                                    borderWidth: 2,
+                                    alignItems: 'center',
+                                    borderRadius: 50,
+                                    width: 50,
+                                    height: 50,
+                                    backgroundColor: ColorBtn
+                                }}>
+                                    <Icon
+                                        name={'lightbulb'}
+                                        color={'black'}
+                                        size={40}
+                                    />
+                                </View>
+                                <Text style={{
+                                    color: 'black',
+                                    alignSelf: 'center'
+                                }}>
+                                    Đèn
+                                </Text></View>
+                        </View>
+                        <View style={{
+                            alignSelf: 'center',
+                            padding: 12,
+                            alignItems: 'center',
+                        }}>
+                            <View>
+                                <View style={{
+                                    borderWidth: 2,
+                                    alignItems: 'center',
+                                    borderRadius: 50,
+                                    width: 50,
+                                    height: 50,
+                                    backgroundColor: ColorBtn1
+                                }}>
+                                    <Icon
+                                        name={'fan'}
+                                        color={'black'}
+                                        size={40}
+                                    />
+                                </View>
+                                <Text style={{
+                                    color: 'black',
+                                    alignSelf: 'center'
+                                }}>
+                                    Quạt
+                                </Text></View>
+                        </View>
+                        <View style={{
+                            alignSelf: 'center',
+                            padding: 12,
+                            alignItems: 'center',
+                        }}>
+                            <View>
+                                <View style={{
+                                    borderWidth: 2,
+                                    alignItems: 'center',
+                                    borderRadius: 50,
+                                    width: 50,
+                                    height: 50,
+                                    backgroundColor: ColorBtn2
+                                }}>
+                                    <Icon
+                                        name={'faucet'}
+                                        color={'black'}
+                                        size={40}
+                                    />
+                                </View>
+                                <Text style={{
+                                    color: 'black',
+                                    alignSelf: 'center'
+                                }}>
+                                    Bơm 1
+                                </Text></View>
+                        </View>
+                        <View style={{
+                            alignSelf: 'center',
+                            padding: 12,
+                            alignItems: 'center',
+                        }}>
+                            <View>
+                                <View style={{
+                                    borderWidth: 2,
+                                    alignItems: 'center',
+                                    borderRadius: 50,
+                                    width: 50,
+                                    height: 50,
+                                    backgroundColor: ColorBtn3
+                                }}>
+                                    <Icon
+                                        name={'faucet'}
+                                        color={'black'}
+                                        size={40}
+                                    />
+                                </View>
+                                <Text style={{
+                                    color: 'black',
+                                    alignSelf: 'center'
+                                }}>
+                                    Bơm 2
+                                </Text></View>
+                        </View>
+                        <View style={{
+                            alignSelf: 'center',
+                            padding: 12,
+                            alignItems: 'center',
+                        }}>
+                            <View>
+                                <View style={{
+                                    borderWidth: 2,
+                                    alignItems: 'center',
+                                    borderRadius: 50,
+                                    width: 50,
+                                    height: 50,
+                                    backgroundColor: ColorBtn4
+                                }}>
+                                    <Icon
+                                        name={'faucet'}
+                                        color={'black'}
+                                        size={40}
+                                    />
+                                </View>
+                                <Text style={{
+                                    color: 'black',
+                                    alignSelf: 'center'
+                                }}>
+                                    Bơm 3
+                                </Text></View>
+                        </View>
+                        <View style={{
+                            alignSelf: 'center',
+                            padding: 12,
+                            alignItems: 'center',
+                        }}>
+                            <View >
+                                <View style={{
+                                    borderWidth: 2,
+                                    alignItems: 'center',
+                                    borderRadius: 50,
+                                    width: 50,
+                                    height: 50,
+                                    backgroundColor: ColorBtn5
+                                }}>
+                                    <Icon
+                                        name={'faucet'}
+                                        color={'black'}
+                                        size={40}
+                                    />
+                                </View>
+                                <Text style={{
+                                    color: 'black',
+                                    alignSelf: 'center'
+                                }}>
+                                    Bơm 4
+                                </Text></View>
+                        </View>
+                    </ScrollView>
+                    }
                         <View style={{ height: 3, backgroundColor: 'gray' }} />
 
                     </View>

@@ -16,7 +16,7 @@ const WeatherScreen = () => {
 
             // Gửi yêu cầu API để lấy thông tin nhiệt độ khu vực tại latitude và longitude
             // Ví dụ: sử dụng API OpenWeatherMap
-            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=04e1cfdb50f706911bd46547aec4fc1c`)
+            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=36e4d0959420482a8b7e553b9837874b`)
               .then(response => response.json())
               .then(data => {
                 if (data.main && data.main.temp) {

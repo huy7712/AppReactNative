@@ -43,13 +43,12 @@ function LoginSceens(props) {
 
 
   useEffect(() => {
-    fetch('http://192.168.137.1:1234/api/user')
+    fetch('http://52.76.44.17:3000/api/user')
       .then(response => response.json())
       .then(json => setData(json))
       .catch(error => console.error(error));
   }, []);
 
-console.log(data)
 
     return (
     <TouchableWithoutFeedback onPress={dismissKeyborad}>
@@ -178,7 +177,6 @@ console.log(data)
       }); 
     } else {
       alert('kiem tra email');
-      console.log(user)
     }
   }}>
   <Text style={{

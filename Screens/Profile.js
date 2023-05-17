@@ -74,7 +74,7 @@ const Profile = () => {
         }}>
           <Text style={{
             color: 'black'
-          }}>User Name: {profileData.name}</Text>
+          }}>User Name: {profileData.username}</Text>
         </View>
         <View style={{
           height: 40,

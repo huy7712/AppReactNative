@@ -11,6 +11,8 @@ import {LoginSceens } from './login'
 import HomeScreen from './HomeScreen'
 import TestNhaKinh from './textnhakinh'
 import ChartScreens from './chartscreen'
+import ModeScreen from './modeSetting'
+import SettingScreen from './SettingScreen'
 
 export {
     LoginSceens,
@@ -24,5 +26,7 @@ export {
     Nhakinh2,
     HomeScreen,
     TestNhaKinh,
-    ChartScreens
+    ChartScreens,
+    ModeScreen,
+    SettingScreen
 }

@@ -86,7 +86,7 @@ style={{
 }}>
 <Text
     style={[text.h5]}
->Bieu Do: {coment} </Text>   
+>Biểu Đồ: {coment} </Text>   
 <Text
     style={[text.h5,{marginHorizontal:5}]}
 >({unit}) </Text>   

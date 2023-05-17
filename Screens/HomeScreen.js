@@ -26,6 +26,59 @@ function HomeScreen(props) {
         data: [0.42]
     }
 
+    // 
+    // 
+    // NHIỆT ĐỘ ÁNH SÁNG ĐỘ ẨM
+    const [temI2C1,setTemI2C1] = useState('0')
+    const [humI2C1,setHumI2C1] = useState('0')
+    const [lightI2C1,setLightI2C1] = useState('0')
+    const [temI2C2,setTemI2C2] = useState('0')
+    const [humI2C2,setHumI2C2] = useState('0')
+    const [lightI2C2,setLightI2C2] = useState('0')
+    socket.on('S-RequestI2C', (value) => {
+        let jsonData = JSON.parse(value);
+        console.log(jsonData);
+        switch (jsonData.i2ca) {
+            case 23:
+                //lightI2C = (parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2)
+                switch (jsonData.houseID) {
+                    case 1:
+                        setLightI2C1((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2));
+                        break
+                    case 2:
+                        setLightI2C2((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2));
+                        break
+                }
+                break
+            case 68:
+                // temI2C = (parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) * 175 / 65535) - 45
+                // humI2C = (parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535)
+                switch (jsonData.houseID) {
+                    case 1:
+                            setTemI2C1((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) * 175 / 65535) - 45);
+                            setHumI2C1((parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535));
+                        break
+                    case 2:
+                            setTemI2C2((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) * 175 / 65535) - 45);
+                            setHumI2C2((parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535));
+                        break
+                }
+                break
+        }
+
+
+        if (temI2C1||humI2C1||lightI2C1||temI2C2||humI2C2||lightI2C2) {
+            setTemI2C1(temI2C1.toFixed(0))
+            setTemI2C2(temI2C2.toFixed(0))   
+
+            setHumI2C1(humI2C1.toFixed(2))
+            setHumI2C2(humI2C2.toFixed(2))
+
+            setLightI2C1(lightI2C1.toFixed(1))
+            setLightI2C2(lightI2C2.toFixed(1))    
+        }
+    })
+
     function changeBackground() {
         if (sour === images.backgroundHomeScreen) {
             setSour(images.backgroundHomeScreen2)
@@ -116,7 +169,7 @@ function HomeScreen(props) {
                     fontSize: 15,
                     fontWeight: 'bold',
                     marginStart: 10,
-                }}>BASIC PARAMETERS</Text>
+                }}>THÔNG SỐ CƠ BẢN</Text>
             </View>
             <View style={{
                 flex: 40,
@@ -144,12 +197,12 @@ function HomeScreen(props) {
                             fontSize: 13,
                             fontFamily: 'Loto-Sans'
                         }}>
-                            NHIET DO</Text>
+                            NHIỆT ĐỘ</Text>
                         <Text style={{
                             color: 'black',
                             fontSize: 13
                         }}>
-                            {dataT.data * 100}
+                            {temI2C1}°C
                         </Text>
                     </View>
                 </View>
@@ -172,12 +225,12 @@ function HomeScreen(props) {
                             fontWeight: 'bold',
                             color: 'black',
                             fontSize: 13
-                        }}>ANH SANG</Text>
+                        }}>ÁNH SÁNG</Text>
                         <Text style={{
                             color: 'black',
                             fontSize: 13
                         }}>
-                            {dataL.data * 100}
+                            {lightI2C1}
                         </Text>
                     </View>
                 </View>
@@ -200,12 +253,12 @@ function HomeScreen(props) {
                             fontWeight: 'bold',
                             color: 'black',
                             fontSize: 13
-                        }}>DO AM DAT</Text>
+                        }}>ĐỘ ẨM</Text>
                         <Text style={{
                             color: 'black',
                             fontSize: 13
                         }}>
-                            {dataH.data * 100}
+                            {humI2C1}
                         </Text>
                     </View>
                 </View>
@@ -289,7 +342,7 @@ function HomeScreen(props) {
                     fontSize: 15,
                     fontWeight: 'bold',
                     marginStart: 10,
-                }}>BASIC PARAMETERS</Text>
+                }}>THÔNG SỐ CƠ BẢN</Text>
             </View>
             <View style={{
                 flex: 40,
@@ -317,12 +370,12 @@ function HomeScreen(props) {
                             fontSize: 13,
                             fontFamily: 'Loto-Sans'
                         }}>
-                            NHIET DO</Text>
+                            NHIỆT ĐỘ</Text>
                         <Text style={{
                             color: 'black',
                             fontSize: 13
                         }}>
-                            {dataT.data * 100}
+                            {temI2C2}
                         </Text>
                     </View>
                 </View>
@@ -345,12 +398,12 @@ function HomeScreen(props) {
                             fontWeight: 'bold',
                             color: 'black',
                             fontSize: 13
-                        }}>ANH SANG</Text>
+                        }}>ÁNH SÁNG</Text>
                         <Text style={{
                             color: 'black',
                             fontSize: 13
                         }}>
-                            {dataL.data * 100}
+                            {lightI2C2}
                         </Text>
                     </View>
                 </View>
@@ -373,12 +426,12 @@ function HomeScreen(props) {
                             fontWeight: 'bold',
                             color: 'black',
                             fontSize: 13
-                        }}>DO AM DAT</Text>
+                        }}>ĐỘ ẨM</Text>
                         <Text style={{
                             color: 'black',
                             fontSize: 13
                         }}>
-                            {dataH.data * 100}
+                            {humI2C2}
                         </Text>
                     </View>
                 </View>

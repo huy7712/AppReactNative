@@ -1,4 +1,4 @@
-import { Nhakinh,Setting,Profiles,Nhakinh2,HomeScreen, ChartScreens } from "../Screens";
+import { Profiles,HomeScreen, ChartScreens,SettingScreen } from "../Screens";
 
 import * as React from 'react'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -21,7 +21,7 @@ const screenOptionss=({route})=>({
         if (screenName=='Chart'){
             iconName='chart-line'
         }
-        if (screenName=='Setting'){
+        if (screenName=='SettingScreen'){
             iconName='cog'
         }
         if (screenName=='Profile'){
@@ -38,7 +38,7 @@ function UITabs(){
     return <Tab.Navigator screenOptions={screenOptionss}>
         <Tab.Screen name={'HomeScreen'} component={HomeScreen}/>
         <Tab.Screen name={'Chart'} component={ChartScreens}/>
-        <Tab.Screen name={'Setting'} component={Setting}/>
+        <Tab.Screen name={'SettingScreen'} component={SettingScreen}/>
         <Tab.Screen name={'Profile'} component={Profiles}/>
     </Tab.Navigator>
 }
