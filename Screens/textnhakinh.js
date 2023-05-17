@@ -45,7 +45,7 @@ function Nhakinh(props) {
                     // lightI2C = (parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2)
                     switch (jsonData.houseID) {
                         case 1:
-                            setLightI2C1((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2));
+                            setLightI2C1((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2).toFixed(2));
                             break
                     }
                     break
@@ -54,23 +54,23 @@ function Nhakinh(props) {
                     // humI2C = (parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535)
                     switch (jsonData.houseID) {
                         case 1:
-                            setTemI2C1((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) * 175 / 65535) - 45);
+                            setTemI2C1(((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) * 175 / 65535) - 45));
                             setHumI2C1((parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535));
                             break
                     }
                     break
             }
     
-            if (temI2C1||humI2C1||lightI2C1) {
-                setTemI2C1(temI2C1.toFixed(0))
+            // if (temI2C1||humI2C1||lightI2C1) {
+            //     setTemI2C1(temI2C1.toFixed(0))
                
     
-                setHumI2C1(humI2C1.toFixed(2))
+            //     setHumI2C1(humI2C1.toFixed(2))
                
     
-                setLightI2C1(lightI2C1.toFixed(1))
+            //     setLightI2C1(lightI2C1.toFixed(1))
             
-            }
+            // }
         })
     },[])
 
@@ -443,7 +443,7 @@ function Nhakinh(props) {
                                 alignItems: 'center',
                                 justifyContent: 'center'
                             }}>
-                                <ProGChart data={dataH} />
+                                <ProGChart data={[humI2C1/100]} />
                                 <Text style={{
                                     position: 'absolute',
                                     color: 'black',

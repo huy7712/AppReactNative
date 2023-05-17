@@ -36,7 +36,7 @@ function Nhakinh(props) {
                     switch (jsonData.houseID) {
                         
                         case 2:
-                            setLightI2C2((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2));
+                            setLightI2C2((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2).toFixed(1));
                             break
                     }
                     break
@@ -45,20 +45,20 @@ function Nhakinh(props) {
                     // humI2C = (parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535)
                     switch (jsonData.houseID) {
                         case 2:
-                            setTemI2C2((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) * 175 / 65535) - 45);
-                            setHumI2C2((parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535));
+                            setTemI2C2(((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) * 175 / 65535) - 45).toFixed(0));
+                            setHumI2C2((parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535).toFixed(2));
                             break
                     }
                     break
             }
     
-            if (temI2C2||humI2C2||lightI2C2) {
-                setTemI2C2(temI2C2.toFixed(0))
+            // if (temI2C2||humI2C2||lightI2C2) {
+            //     setTemI2C2(temI2C2.toFixed(0))
     
-                setHumI2C2(humI2C2.toFixed(2))
+            //     setHumI2C2(humI2C2.toFixed(2))
     
-                setLightI2C2(lightI2C2.toFixed(1))
-            }
+            //     setLightI2C2(lightI2C2.toFixed(1))
+            // }
         })
     },[])
     // 
@@ -98,15 +98,16 @@ function Nhakinh(props) {
 // 
 // 
 // GET MODE 
-    const [getMode,setGetMode]=useState('')
-    useEffect(()=>{
+    const [getMode, setGetMode] = useState('')
+    useEffect(() => {
         fetch('http://192.168.137.100:1234/api/getMode2')
-  .then(response => response.json())
-  .then(data => {
-    data.forEach((item) => {
-        setGetMode(item.mode)
-    })})
-    },[])
+            .then(response => response.json())
+            .then(data => {
+                data.forEach((item) => {
+                    setGetMode(item.mode)
+                })
+            })
+    }, [])
 
     useEffect(()=>{
         socket.on('display2', (data) => {
@@ -472,7 +473,7 @@ function Nhakinh(props) {
                                 alignItems: 'center',
                                 justifyContent: 'center'
                             }}>
-                                <ProGChart data={dataH} />
+                                <ProGChart data={[humI2C2/100]} />
                                 <Text style={{
                                     position: 'absolute',
                                     color: 'black',

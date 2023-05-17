@@ -56,7 +56,7 @@ function SettingScreen(props){
                 color:'black',
                 fontSize:15
             }}>
-                CÀi Đặt Ngưỡng
+                Cài Đặt Ngưỡng
             </Text>
         </TouchableOpacity>
         </View>

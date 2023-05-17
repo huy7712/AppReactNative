@@ -16,6 +16,6 @@ import { UpdateUser } from './utilies/UpdateLocalData';
 import WeatherScreen from './utilies/UpdateLocalData';
 import Geolocation from 'react-native-geolocation-service';
 
-AppRegistry.registerComponent(appName, () => ()=> <ChartScreens/>)
+AppRegistry.registerComponent(appName, () => ()=> <Setting/>)
 
 this.socket = io ("http://192.168.137.100:1234", {jsonp:false}) 

@@ -13,30 +13,88 @@ function ModeScreen(props) {
     const [getColor1, setGetColor1] = useState('')
     const [getMode2, setGetMode2] = useState('')
     const [getColor2, setGetColor2] = useState('')
-    const {setMode,setMode2}=useContext(ModeContext)
+    
+    // const {setMode,setMode2}=useContext(ModeContext)
+
+    const [gethumlow1,SetGethumlow1]=useState('')
+    const [gethumhight1,SetGethumhight1]=useState('')
+    
+    const [gettemlow1,SetGettemlow1]=useState('')
+    const [gettemhight1,SetGettemhight1]=useState('')
+    
+    const [getlightlow1,SetGetlightlow1]=useState('')
+    const [getlighthight1,SetGetlighthight1]=useState('')
+    
+    const [gethumlow2,SetGethumlow2]=useState('')
+    const [gethumhight2,SetGethumhight2]=useState('')
+    
+    const [gettemlow2,SetGettemlow2]=useState('')
+    const [gettemhight2,SetGettemhight2]=useState('')
+    
+    const [getlightlow2,SetGetlightlow2]=useState('')
+    const [getlighthight2,SetGetlighthight2]=useState('')
+
+    useEffect(() => {
+        fetch('http://192.168.137.100:1234/api/getMode1')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach((item) => {
+                    if (item.mode==1){
+                        setGetMode1('toggle-on')
+                        setGetColor1('blue')
+                    }
+                    else {
+                        setGetMode1('toggle-off')
+                        setGetColor1('black')
+                    }
+                })
+            })
+    }, [])
+
+    useEffect(() => {
+        fetch('http://192.168.137.100:1234/api/getMode2')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach((item) => {
+                    if (item.mode==1){
+                        setGetMode2('toggle-on')
+                        setGetColor2('blue')
+                    }
+                    else{
+                        setGetMode2('toggle-off')
+                        setGetColor2('black')
+                    }
+                })
+            })
+    }, [])
+
 
     function MODE1() {
         if (getMode1 == 'toggle-off') {
             setGetMode1('toggle-on')
             setGetColor1('blue')
-            setMode(1)
+            // setMode(1)
+            socket.emit('mode1', "auto");
         }
         else if (getMode1 == 'toggle-on') {
             setGetMode1('toggle-off')
             setGetColor1('black')
-            setMode(0)
+            socket.emit('mode1', "manual");
+            // setMode(0)
         }
     }
     function MODE2() {
         if (getMode2 == 'toggle-off') {
             setGetMode2('toggle-on')
             setGetColor2('blue')
-            setMode2(1)
+            socket.emit('mode2', "auto");
+            // setMode2(1)
         }
         else if (getMode2 == 'toggle-on') {
             setGetMode2('toggle-off')
             setGetColor2('black')
-            setMode2(0)
+            socket.emit('mode2', "manual");
+            // setMode2(0)
         }
     }
 
@@ -67,6 +125,7 @@ function ModeScreen(props) {
 
             </Picker>
         </View>
+        {/* Nha Kinh 1 */}
         {selectedValue == 1 && <View>
             <View style={{
                 marginTop: 10,
@@ -129,6 +188,9 @@ function ModeScreen(props) {
                         }}
                             placeholder='Number'
                             keyboardType={'numeric'}
+                            onChangeText={(text)=>{
+                                SetGethumlow1(text)
+                            }}
                         />
                         <Text style={{
                             alignSelf: 'center'
@@ -153,6 +215,9 @@ function ModeScreen(props) {
                         }}
                             placeholder='Number'
                             keyboardType={'numeric'}
+                            onChangeText={(text)=>{
+                                SetGethumhight1(text)
+                            }}
                         />
                         <Text style={{
                             alignSelf: 'center'
@@ -202,6 +267,9 @@ function ModeScreen(props) {
                         }}
                             placeholder='Number'
                             keyboardType={'numeric'}
+                            onChangeText={(text)=>{
+                                SetGettemlow1(text)
+                            }}
                         />
                         <Text style={{
                             alignSelf: 'center'
@@ -226,6 +294,9 @@ function ModeScreen(props) {
                         }}
                             placeholder='Number'
                             keyboardType={'numeric'}
+                            onChangeText={(text)=>{
+                                SetGettemhight1(text)
+                            }}
                         />
                         <Text style={{
                             alignSelf: 'center'
@@ -275,6 +346,9 @@ function ModeScreen(props) {
                         }}
                             placeholder='Number'
                             keyboardType={'numeric'}
+                            onChangeText={(text)=>{
+                                SetGetlightlow1(text)
+                            }}
                         />
                         <Text style={{
                             alignSelf: 'center'
@@ -299,6 +373,9 @@ function ModeScreen(props) {
                         }}
                             placeholder='Number'
                             keyboardType={'numeric'}
+                            onChangeText={(text)=>{
+                                SetGetlighthight1(text)
+                            }}
                         />
                         <Text style={{
                             alignSelf: 'center'
@@ -373,6 +450,9 @@ function ModeScreen(props) {
                         }}
                             placeholder='Number'
                             keyboardType={'numeric'}
+                            onChangeText={(text)=>{
+                                SetGethumlow2(text)
+                            }}
                         />
                         <Text style={{
                             alignSelf: 'center'
@@ -397,6 +477,9 @@ function ModeScreen(props) {
                         }}
                             placeholder='Number'
                             keyboardType={'numeric'}
+                            onChangeText={(text)=>{
+                                SetGethumhight2(text)
+                            }}
                         />
                         <Text style={{
                             alignSelf: 'center'
@@ -446,6 +529,9 @@ function ModeScreen(props) {
                         }}
                             placeholder='Number'
                             keyboardType={'numeric'}
+                            onChangeText={(text)=>{
+                                SetGettemlow2(text)
+                            }}
                         />
                         <Text style={{
                             alignSelf: 'center'
@@ -470,6 +556,9 @@ function ModeScreen(props) {
                         }}
                             placeholder='Number'
                             keyboardType={'numeric'}
+                            onChangeText={(text)=>{
+                                SetGettemhight2(text)
+                            }}
                         />
                         <Text style={{
                             alignSelf: 'center'
@@ -519,11 +608,14 @@ function ModeScreen(props) {
                         }}
                             placeholder='Number'
                             keyboardType={'numeric'}
+                            onChangeText={(text)=>{
+                                SetGetlightlow2(text)
+                            }}
                         />
                         <Text style={{
                             alignSelf: 'center'
                         }}>
-                            %
+                            lux
                         </Text>
                     </View>
 
@@ -543,18 +635,27 @@ function ModeScreen(props) {
                         }}
                             placeholder='Number'
                             keyboardType={'numeric'}
+                            onChangeText={(text)=>{
+                                SetGetlighthight2(text)
+                            }}
                         />
                         <Text style={{
                             alignSelf: 'center'
                         }}>
-                            %
+                            lux
                         </Text>
                     </View>
                 </View>
             </View>
         </View>}
         <View style={{ flex: 1 }}></View>
-        <TouchableOpacity style={{
+        <TouchableOpacity 
+        onPress={()=>{
+            socket.emit('getAutoValue', '{"lowHum1":' + gethumlow1 + ',"highHum1":' + gethumhight1 + ',"lowHum2":' + gethumlow2 + ',"highHum2":' + gethumhight2 + ',"lowLight1":' + getlightlow1 + ',"highLight1":' + getlighthight1 + ',"lowLight2":' + getlightlow2 + ',"highLight2":' + getlighthight2 + ',"lowTem1":' + gettemlow1 + ',"highTem1":' + gettemhight1 + ',"lowTem2":' + gettemlow2 + ',"highTem2":' + gettemhight2 + '}')
+            // console.log('{"lowHum1":' + gethumlow1 + ',"highHum1":' + gethumhight1 + ',"lowHum2":' + gethumlow2 + ',"highHum2":' + gethumhight2 + ',"lowLight1":' + getlightlow1 + ',"highLight1":' + getlighthight1 + ',"lowLight2":' + getlightlow2 + ',"highLight2":' + getlighthight2 + ',"lowTem1":' + gettemlow1 + ',"highTem1":' + gettemhight1 + ',"lowTem2":' + gettemlow2 + ',"highTem2":' + gettemhight2 + '}')
+
+        }}
+        style={{
             marginBottom: 90,
             alignSelf: 'flex-end',
             marginHorizontal: 20,

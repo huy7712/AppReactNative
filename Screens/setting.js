@@ -13,27 +13,53 @@ function Setting(props) {
     const [i2cAddresses, setI2CAddresses] = useState([]);
     const [i2cAddresses2, setI2CAddresses2] = useState([]);
 
+    const [inputValue, setInputValue] = useState()
+
+
+    const [getTimeADC,setGettimeADC]=useState('')
+    const [getTimeADC2,setGettimeADC2]=useState('')
+    const [getTimeI2C,setGettimeI2C]=useState(['',''])
+    const [getTimeI2C2,setGettimeI2C2]=useState(['',''])
+    const [getTimeNPK,setGettimeNPK]=useState('')
+    const [getTimepH,setGettimepH]=useState('')
+    const [getTimeRs485_moisture,setGettimeRs485_moisture]=useState('')
+
+    const handleInputChange = (index, value) => {
+        const newInputs = [...getTimeI2C];
+        newInputs[index] = value;
+        setGettimeI2C(newInputs);
+      };
+    const handleInputChange2 = (index, value) => {
+        const newInputs = [...getTimeI2C2];
+        newInputs[index] = value;
+        setGettimeI2C2(newInputs);
+      };
+
+
     useEffect(() => {
         socket.on("GET_I2C_DEVICE", (data1) => {
           const data = JSON.parse(data1);
           const length = data.lenght;
           const addresses = [];
           const addresses2 = [];
-            if (data.HouseID==1){
+        // console.log(data)
+            if (data.houseID==1){
           for (let i = 1; i <= data.lenght; i++) {
             // const i2cKey = `I2C_address_${i}`;
             // const i2cValue = data[i2cKey];
-            const addressKey = `I2C_address_${i}`;
+            const addressKey = `i2ca${i}`;
             const addressValue = parseInt(data[addressKey]);
             addresses.push(addressValue);
           }
+        //   console.log(addresses)
           setI2CAddresses(addresses);
+          
         }
-        else if (data.HouseID==2){
+        else if (data.houseID==2){
             for (let i = 1; i <= data.lenght; i++) {
                 // const i2cKey = `I2C_address_${i}`;
                 // const i2cValue = data[i2cKey];
-                const addressKey = `I2C_address_${i}`;
+                const addressKey = `i2ca${i}`;
                 const addressValue = parseInt(data[addressKey]);
                 addresses2.push(addressValue);
               }
@@ -41,6 +67,46 @@ function Setting(props) {
         }
         });
       }, []);
+
+      function sendData2(addressValue,getTimeI2C) {
+        var i2cd;
+        var nob;
+        // getTimeI2C.preventDefault();
+        let i2cInput = getTimeI2C;
+        if (addressValue == 68) {
+            i2cd = "44,6";
+            nob = 6;
+        }
+        if (addressValue == 35) {
+            i2cd = "0,0";
+            nob = 2;
+        }
+        //let hexString = i2cInput.toString(16).padStart(4, '0');
+        //let hexBytes = [hexString.substr(0, 2), hexString.substr(2, 2)];
+        socket.emit("configI2C", '{"Client":{"houseID":1,"request":"WriteCMD","cmdAuto":"RequestI2C","i2ca":' + addressValue + ',"i2cd":"' + i2cd + '","NoB":' + nob + ',"Delay":20,"cmdID":' + addressValue + ',"time":' + i2cInput + '}}');
+        // console.log('"i2ca":' + addressValue + ',"i2cd":"' + i2cd + '","NoB":' + nob + ',"cmdID":' + addressValue + ',"time":' + i2cInput + '}');
+ 
+    }
+
+    function sendData3(getTimeI2C2, addressValue) {
+        let i2cd;
+        var nob;
+        // event.preventDefault();
+        let i2cInput = getTimeI2C2;
+        if (addressValue == 68) {
+            i2cd = "44,6";
+            nob = 6;
+        }
+        if (addressValue == 35) {
+            i2cd = "0,0";
+            nob = 2;
+        }
+        //let hexString = i2cInput.toString(16).padStart(4, '0');
+        //let hexBytes = [hexString.substr(0, 2), hexString.substr(2, 2)];
+        socket.emit("configI2C", '{"Client":{"houseID":2,"request":"WriteCMD","cmdAuto":"RequestI2C","i2ca":' + addressValue + ',"i2cd":"' + i2cd + '","NoB":' + nob + ',"Delay":20,"cmdID":' + addressValue + ',"time":' + i2cInput + '}}');
+        // console.log('"i2ca":' + addressValue + ',"i2cd":"' + i2cd + '","NoB":' + nob + ',"cmdID":' + addressValue + ',"time":' + i2cInput + '}}');
+ 
+    }
 
     return <ScrollView style={{
         flex: 1,
@@ -62,7 +128,11 @@ function Setting(props) {
                 NHA KINH 1
             </Text>
             <View>
-                <TouchableOpacity onPress={()=>setShowElement(true)}>
+                <TouchableOpacity onPress={()=>{
+                    setShowElement(true)
+                    socket.emit('scan_i2c', '{"Client":{"houseID":1,"request":"ScanI2C"}}')
+                    // console.log(i2c)
+                }}>
                     <Text style={{
                         color:'black'
                     }}>SCAN I2C</Text>
@@ -73,10 +143,12 @@ function Setting(props) {
                 marginTop:5,
                 marginBottom:5
             }}>
-                <View>
+                <View style={{
+                    width:170
+                }}>
                 <Text style={{
                     color:'black'
-                }}>Nhập giá trị Read I2C</Text>
+                }}>Nhập giá trị Read ADC</Text>
                 <Text style={{
                     color:'black'
                 }}>cho địa chỉ (Ms)</Text>
@@ -93,8 +165,16 @@ function Setting(props) {
                     }}
                 placeholder='Number'
                 keyboardType={'numeric'}
+                onChangeText={(text)=>{
+                    setGettimeADC(text)
+                }}
+
                 />
-                <TouchableOpacity onPress={()=>console.log(selectedValue2)} style={{
+                <TouchableOpacity 
+                onPress={()=>{
+                    socket.emit("config", '{"Client":{"houseID":1,"request":"WriteCMD","cmdAuto":"ReadAdc","adc":"0,1,2,3","cmdID":20,"time":' + getTimeADC + '}}')
+                }} 
+                style={{
                     
                 }}>
                     <Text style={{
@@ -107,15 +187,21 @@ function Setting(props) {
                     }}>SUBMIT</Text>
                 </TouchableOpacity>
             </View>
-           {showElement&&i2cAddresses.map((address, index) => (
+           {showElement&&
+           i2cAddresses.map((address, index) => (
                 <View key={`View ${index}`} style={{flexDirection:'row'}}>
-                    <View key={`View2 ${index}`}>
-                    <Text key={`text ${index}`} style={{
+                    <View key={`View2 ${index}`} style={{width:170}}>
+                    <Text key={`text ${index}`} 
+                    style={{
                     color:'black'
-                }}>Nhập giá trị Read I2C</Text>
+                }}>
+                    Nhập giá trị Read I2C
+                    </Text>
                     <Text key={index} style={{
                     color:'black'
-                }}>tại địa chỉ {address}</Text>
+                }}>
+                    tại địa chỉ {address}
+                    </Text>
                     </View>
                     <TextInput
                     key={`inputText ${index}`}
@@ -129,9 +215,18 @@ function Setting(props) {
                     }}
                 placeholder='Number'
                 keyboardType={'numeric'}
+                value={inputValue}
+                onChangeText={(value)=>{
+                    handleInputChange(index,value)
+                }}
                 />
                 <TouchableOpacity 
-                onPress={()=>alert('SUBMIT'+ address)}>
+                key={index}
+                onPress={()=>{
+                    sendData2(address,getTimeI2C[index])
+
+                }
+                }>
                     <Text style={{
                         color:'black',
                         marginHorizontal:2,
@@ -165,21 +260,24 @@ function Setting(props) {
                 NHA KINH 2
             </Text>
             <View>
-                <TouchableOpacity onPress={()=>setShowElement2(true)}>
+                <TouchableOpacity onPress={()=>{
+                    socket.emit('scan_i2c', '{"Client":{"houseID":2,"request":"ScanI2C"}}')
+                    setShowElement2(true)
+                }}>
                     <Text style={{
                         color:'black'
                     }}>SCAN I2C</Text>
                 </TouchableOpacity>
             </View>
-            <View style={{
+            {/* <View style={{
                 flexDirection:'row',
                 marginTop:5,
                 marginBottom:5
             }}>
-                <View style={{width:160}}>
+                <View style={{width:170}}>
                 <Text style={{
                     color:'black'
-                }}>Nhập giá trị Read I2C</Text>
+                }}>Nhập giá trị Read ADC</Text>
                 <Text style={{
                     color:'black'
                 }}>cho địa chỉ (Ms)</Text>
@@ -196,8 +294,16 @@ function Setting(props) {
                     }}
                 placeholder='Number'
                 keyboardType={'numeric'}
+                onChangeText={(text)=>{
+                    setGettimeADC2(text)
+                }}
                 />
-                <TouchableOpacity>
+                <TouchableOpacity 
+                onPress={()=>{
+                    socket.emit("config", '{"Client":{"houseID":2,"request":"WriteCMD","cmdAuto":"ReadAdc","adc":"1","cmdID":30,"time":' + getTimeADC2 + '}}')
+                   
+                }}
+                >
                     <Text style={{
                         color:'black',
                         marginHorizontal:2,
@@ -207,10 +313,10 @@ function Setting(props) {
                         height:40,
                     }}>SUBMIT</Text>
                 </TouchableOpacity>
-            </View>
+            </View> */}
            {showElement2&&i2cAddresses2.map((address, index) => (
                 <View key={`View ${index}`} style={{flexDirection:'row'}}>
-                    <View key={`View2 ${index}`} style={{width:160}}>
+                    <View key={`View2 ${index}`} style={{width:170}}>
                     <Text key={`text ${index}`} style={{
                     color:'black'
                 }}>Nhập giá trị Read I2C</Text>
@@ -230,9 +336,13 @@ function Setting(props) {
                     }}
                 placeholder='Number'
                 keyboardType={'numeric'}
+                onChangeText={(value)=>{
+                    handleInputChange2(index,value)
+                    
+                }}
                 />
                 <TouchableOpacity 
-                onPress={()=>alert('SUBMIT'+ address)}>
+                onPress={() => sendData3(getTimeI2C2[index], address)}>
                     <Text style={{
                         color:'black',
                         marginHorizontal:2,
@@ -245,12 +355,16 @@ function Setting(props) {
 
                 </View>
             ))}
+
+            {/*  */}
+            {/*  */}
+            {/* NPK */}
             <View style={{
                 flexDirection:'row',
                 marginTop:5,
                 marginBottom:5
             }}>
-                <View style={{width:160}}>
+                <View style={{width:170}}>
                 <Text style={{
                     color:'black'
                 }}>cài đặt thơi gian cho</Text>
@@ -266,12 +380,18 @@ function Setting(props) {
                         padding: 10,
                         flex:1,
                         marginHorizontal:10,
-                        
                     }}
                 placeholder='Number'
                 keyboardType={'numeric'}
+                onChangeText={(text)=>{
+                    setGettimeNPK(text)
+                }}
                 />
-                <TouchableOpacity>
+                <TouchableOpacity 
+                onPress={()=>{
+                    socket.emit("configRS485", '{"Client":{"houseID":2,"request":"WriteCMD","cmdAuto":"RS485","RS485a":1,"RS485 Funtion code":3,"register start address":"0,30","register lenght":"0,3","NoB":11,"cmdID":41,"time":' + getTimeNPK + '}}');
+                }}
+                >
                     <Text style={{
                         color:'black',
                         marginHorizontal:2,
@@ -279,15 +399,19 @@ function Setting(props) {
                         paddingHorizontal:5,
                         width:70,
                         height:40,
-                    }}>SUBMIT</Text>
+                    }}
+                    >SUBMIT</Text>
                 </TouchableOpacity>
             </View>
+            {/*  */}
+            {/*  */}
+            {/* pH */}
             <View style={{
                 flexDirection:'row',
                 marginTop:5,
                 marginBottom:5
             }}>
-                <View style={{width:160}}>
+                <View style={{width:170}}>
                 <Text style={{
                     color:'black'
                 }}>cài đặt thơi gian cho</Text>
@@ -307,8 +431,15 @@ function Setting(props) {
                     }}
                 placeholder='Number'
                 keyboardType={'numeric'}
+                onChangeText={(text)=>{
+                    setGettimepH(text)
+                }}
                 />
-                <TouchableOpacity>
+                <TouchableOpacity 
+                onPress={()=>{
+                    socket.emit("configRS485", '{"Client":{"houseID":2,"request":"WriteCMD","cmdAuto":"RS485","RS485a":1,"RS485 Funtion code":3,"register start address":"0,6","register lenght":"0,1","NoB":7,"cmdID":42,"time":' + getTimepH + '}}')
+                }}
+                >
                     <Text style={{
                         color:'black',
                         marginHorizontal:2,
@@ -324,7 +455,7 @@ function Setting(props) {
                 marginTop:5,
                 marginBottom:5
             }}>
-                <View style={{width:160}}>
+                <View style={{width:170}}>
                 <Text style={{
                     color:'black'
                 }}>cài đặt thơi gian cho</Text>
@@ -344,8 +475,15 @@ function Setting(props) {
                     }}
                 placeholder='Number'
                 keyboardType={'numeric'}
+                onChangeText={(text)=>{
+                    setGettimeRs485_moisture(text)
+                }}
                 />
-                <TouchableOpacity>
+                <TouchableOpacity
+                onPress={()=>{
+                    socket.emit("configRS485", '{"Client":{"houseID":2,"request":"WriteCMD","cmdAuto":"RS485","RS485a":1,"RS485 Funtion code":3,"register start address":"0,18","register lenght":"0,1","NoB":7,"cmdID":43,"time":' + getTimeRs485_moisture + '}}')
+                }}
+                >
                     <Text style={{
                         color:'black',
                         marginHorizontal:2,
