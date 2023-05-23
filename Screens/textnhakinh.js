@@ -14,21 +14,26 @@ export default Nhakinh
 
 
 function Nhakinh(props) {
-    const dataH = {
-        data: [0.42]
-    }
-    const dataH2 = {
-        data: [0.38]
-    }
+
     const [getMode,setGetMode]=useState('')
 
     const [temI2C1,setTemI2C1] = useState('0')
     const [humI2C1,setHumI2C1] = useState('0')
     const [lightI2C1,setLightI2C1] = useState('0')
+    const [soilM,setsoilM] = useState('0')
 
 
     useEffect(()=>{
-        fetch('http://192.168.137.100:1234/api/getMode1')
+        socket.on('S-ReadADC', (value) => {
+            let jsonData = JSON.parse(value)
+            let decNumber = (jsonData.adc1+jsonData.adc2+jsonData.adc3+jsonData.adc4)/4
+            setsoilM(((decNumber - 1450) * 100 / (600 - 1450)).toFixed(0))
+            // console.log(jsonData)
+        })
+    },[])
+
+    useEffect(()=>{
+        fetch('http://192.168.0.100:1234/api/getMode1')
   .then(response => response.json())
   .then(data => {
     data.forEach((item) => {
@@ -39,9 +44,9 @@ function Nhakinh(props) {
     useEffect(()=>{
         socket.on('S-RequestI2C', (value) => {
             let jsonData = JSON.parse(value);
-            console.log(jsonData);
+            // console.log(jsonData);
             switch (jsonData.i2ca) {
-                case 23:
+                case 35:
                     // lightI2C = (parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2)
                     switch (jsonData.houseID) {
                         case 1:
@@ -54,8 +59,8 @@ function Nhakinh(props) {
                     // humI2C = (parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535)
                     switch (jsonData.houseID) {
                         case 1:
-                            setTemI2C1(((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) * 175 / 65535) - 45));
-                            setHumI2C1((parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535));
+                            setTemI2C1(((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) * 175 / 65535) - 45).toFixed(0));
+                            setHumI2C1((parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535).toFixed(2));
                             break
                     }
                     break
@@ -138,7 +143,7 @@ function Nhakinh(props) {
     },[])
 
     useEffect(()=>{
-        fetch('http://192.168.137.100:1234/api/getButton')
+        fetch('http://192.168.0.100:1234/api/getButton')
         .then(response => response.json())
         .then(data => {
             data.forEach((item) => {
@@ -211,44 +216,44 @@ function Nhakinh(props) {
         //bt_on1.classList.toggle('light');
         if (ColorBtn != 'red') {
             //console.log(1)
-            socket.emit('den1on', '{"server":{"houseID":1,"request":"WriteDigital","lenght":"2","DO":"0","value":"0"}}');
+            socket.emit('den1on', '{"Client":{"houseID":1,"request":"WriteDigital","DO0":"0"}}');
         }
         else {
             //console.log(0)
-            socket.emit('den1off', '{"server":{"houseID":1,"request":"WriteDigital","lenght":"2","DO":"0","value":"1"}}');
+            socket.emit('den1off', '{"Client":{"houseID":1,"request":"WriteDigital","DO0":"1"}}');
         }
     }
     function addlight2() {
         //bt_on2.classList.toggle('light');
         if (ColorBtn1 != 'red') {
             //console.log(1)
-            socket.emit('den2on', '{"server":{"houseID":1,"request":"WriteDigital","lenght":"2","DO":"1","value":"0"}}');
+            socket.emit('den2on', '{"Client":{"houseID":1,"request":"WriteDigital","DO1":"0"}}');
         }
         else {
             //console.log(0)
-            socket.emit('den2off', '{"server":{"houseID":1,"request":"WriteDigital","lenght":"2","DO":"1","value":"1"}}');
+            socket.emit('den2off', '{"Client":{"houseID":1,"request":"WriteDigital","DO1":"1"}}');
         }
     }
     function addlight3() {
         //bt_on3.classList.toggle('light');
         if (ColorBtn2 != 'red') {
             //console.log(1)
-            socket.emit('den3on', '{"server":{"houseID":1,"request":"WriteDigital","lenght":"2","DO":"2","value":"0"}}');
+            socket.emit('den3on', '{"Client":{"houseID":1,"request":"WriteDigital","DO2":"0"}}');
         }
         else {
             //console.log(0)
-            socket.emit('den3off', '{"server":{"houseID":1,"request":"WriteDigital","lenght":"2","DO":"2","value":"1"}}');
+            socket.emit('den3off', '{"Client":{"houseID":1,"request":"WriteDigital","DO2":"1"}}');
         }
     }
     function addlight4() {
         //bt_on4.classList.toggle('light');
         if (ColorBtn3 != 'red') {
             //console.log(1)
-            socket.emit('den4on', '{"server":{"houseID":1,"request":"WriteDigital","lenght":"2","DO":"3","value":"0"}}');
+            socket.emit('den4on', '{"Client":{"houseID":1,"request":"WriteDigital","DO3":"0"}}');
         }
         else {
             //console.log(0)
-            socket.emit('den4off', '{"server":{"houseID":1,"request":"WriteDigital","lenght":"2","DO":"3","value":"1"}}');
+            socket.emit('den4off', '{"Client":{"houseID":1,"request":"WriteDigital","DO3":"1"}}');
         }
     }
 
@@ -256,11 +261,11 @@ function Nhakinh(props) {
         //bt_on5.classList.toggle('light');
         if (ColorBtn4 != 'red') {
             //console.log(1)
-            socket.emit('den5on', '{"server":{"houseID":1,"request":"WriteDigital","lenght":"2","DO":"4","value":"0"}}');
+            socket.emit('den5on', '{"Client":{"houseID":1,"request":"WriteDigital","DO4":"0"}}');
         }
         else {
             //console.log(0)
-            socket.emit('den5off', '{"server":{"houseID":1,"request":"WriteDigital","lenght":"2","DO":"4","value":"1"}}');
+            socket.emit('den5off', '{"Client":{"houseID":1,"request":"WriteDigital","DO4":"1"}}');
         }
     }
 
@@ -268,11 +273,11 @@ function Nhakinh(props) {
         //bt_on6.classList.toggle('light');
         if (ColorBtn5 != 'red') {
             //console.log(1)
-            socket.emit('den6on', '{"server":{"houseID":1,"request":"WriteDigital","lenght":"2","DO":"5","value":"0"}}');
+            socket.emit('den6on', '{"Client":{"houseID":1,"request":"WriteDigital","DO5":"0"}}');
         }
         else {
             //console.log(0)
-            socket.emit('den6off', '{"server":{"houseID":1,"request":"WriteDigital","lenght":"2","DO":"5","value":"1"}}');
+            socket.emit('den6off', '{"Client":{"houseID":1,"request":"WriteDigital","DO5":"1"}}');
         }
     }
 
@@ -479,7 +484,7 @@ function Nhakinh(props) {
                                     }}>Độ Ẩm Đất:</Text>
                                     <Text style={{
                                         color: 'black'
-                                    }}>{dataH2.data * 100}%</Text>
+                                    }}>{soilM}%</Text>
                                 </View>
                             </View>
                             <View style={{
@@ -487,13 +492,13 @@ function Nhakinh(props) {
                                 alignItems: 'center',
                                 justifyContent: 'center'
                             }}>
-                                <ProGChart data={dataH2} />
+                                <ProGChart data={[soilM/100]} />
                                 <Text style={{
                                     position: 'absolute',
                                     color: 'black',
                                     fontSize: 15
                                 }}
-                                >{dataH2.data * 100}</Text>
+                                >{soilM}</Text>
                             </View>
                         </View>
                     </View>

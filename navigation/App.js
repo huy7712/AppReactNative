@@ -14,8 +14,8 @@ function AppNav(props){
         <Stack.Navigator initialRouteName='Welcome' screenOptions={{
             headerShown:false
         }}>
-            <Stack.Screen name={'Welcome'} component={Welcome}/> 
-            <Stack.Screen name={'LoginSceens'} component={LoginSceens}/>
+            {/* <Stack.Screen name={'Welcome'} component={Welcome}/>  */}
+            {/* <Stack.Screen name={'LoginSceens'} component={LoginSceens}/> */}
             {/* <Stack.Screen name={'Register'} component={Register}/>  */}
             <Stack.Screen name={'UITabs'} component={UITabs}/>
             <Stack.Screen name={'NhaKinh1'} component={TestNhaKinh}/>

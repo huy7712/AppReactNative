@@ -199,7 +199,7 @@ function LoginSceens(props) {
 
                 
                 <TouchableOpacity onPress={()=>{
-                    navigate('Register')
+                    // navigate('Register')
                 }}>
                     <Text style={{
                         padding: 8,

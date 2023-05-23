@@ -17,7 +17,9 @@ function ChartLine(props){
     const maxValue = Math.max(...datas) +0.5;
     // const minValue = Math.min(...datas) -0.5
     const renderDotContent = ({ x, y, index }) => (
-        <Text style={{ position: 'absolute', top: y-35 , left: x-5, color:'black',fontSize:15 }}>
+        <Text 
+        key={index}
+        style={{ position: 'absolute', top: y-35 , left: x-5, color:'black',fontSize:15 }}>
           {datas[index]}
         </Text>
       );

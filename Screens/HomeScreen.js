@@ -15,16 +15,7 @@ function HomeScreen(props) {
     const {navigate,goback}=navigation
 
     const [sour, setSour] = useState(images.backgroundHomeScreen)
-    const [sour1, setSour1] = useState(images.backgroundHomeScreen)
-    const dataL = {
-        data: [0.34]
-    };
-    const dataT = {
-        data: [0.39]
-    }
-    const dataH = {
-        data: [0.42]
-    }
+    const [sour1, setSour1] = useState(images.backgroundHomeScreen2)
 
     // 
     // 
@@ -37,16 +28,16 @@ function HomeScreen(props) {
     const [lightI2C2,setLightI2C2] = useState('0')
     socket.on('S-RequestI2C', (value) => {
         let jsonData = JSON.parse(value);
-        console.log(jsonData);
+        // console.log(jsonData);
         switch (jsonData.i2ca) {
-            case 23:
+            case 35:
                 //lightI2C = (parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2)
                 switch (jsonData.houseID) {
                     case 1:
-                        setLightI2C1((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2));
+                        setLightI2C1((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2).toFixed(0));
                         break
                     case 2:
-                        setLightI2C2((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2));
+                        setLightI2C2((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2).toFixed(0));
                         break
                 }
                 break
@@ -55,52 +46,41 @@ function HomeScreen(props) {
                 // humI2C = (parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535)
                 switch (jsonData.houseID) {
                     case 1:
-                            setTemI2C1((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) * 175 / 65535) - 45);
-                            setHumI2C1((parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535));
+                            setTemI2C1(((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) * 175 / 65535) - 45).toFixed(0));
+                            setHumI2C1((parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535).toFixed(2));
                         break
                     case 2:
-                            setTemI2C2((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) * 175 / 65535) - 45);
-                            setHumI2C2((parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535));
+                            setTemI2C2(((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) * 175 / 65535) - 45).toFixed(0));
+                            setHumI2C2((parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535).toFixed(2));
                         break
                 }
                 break
         }
 
-
-        if (temI2C1||humI2C1||lightI2C1||temI2C2||humI2C2||lightI2C2) {
-            setTemI2C1(temI2C1.toFixed(0))
-            setTemI2C2(temI2C2.toFixed(0))   
-
-            setHumI2C1(humI2C1.toFixed(2))
-            setHumI2C2(humI2C2.toFixed(2))
-
-            setLightI2C1(lightI2C1.toFixed(1))
-            setLightI2C2(lightI2C2.toFixed(1))    
-        }
     })
 
-    function changeBackground() {
-        if (sour === images.backgroundHomeScreen) {
-            setSour(images.backgroundHomeScreen2)
-        }
-        if (sour === images.backgroundHomeScreen2) {
-            setSour(images.backgroundHomeScreen3)
-        }
-        if (sour === images.backgroundHomeScreen3) {
-            setSour(images.backgroundHomeScreen)
-        }
-    }
-    function changeBackground1() {
-        if (sour1 === images.backgroundHomeScreen) {
-            setSour1(images.backgroundHomeScreen2)
-        }
-        if (sour1 === images.backgroundHomeScreen2) {
-            setSour1(images.backgroundHomeScreen3)
-        }
-        if (sour1 === images.backgroundHomeScreen3) {
-            setSour1(images.backgroundHomeScreen)
-        }
-    }
+    // function changeBackground() {
+    //     if (sour === images.backgroundHomeScreen) {
+    //         setSour(images.backgroundHomeScreen2)
+    //     }
+    //     if (sour === images.backgroundHomeScreen2) {
+    //         setSour(images.backgroundHomeScreen3)
+    //     }
+    //     if (sour === images.backgroundHomeScreen3) {
+    //         setSour(images.backgroundHomeScreen)
+    //     }
+    // }
+    // function changeBackground1() {
+    //     if (sour1 === images.backgroundHomeScreen) {
+    //         setSour1(images.backgroundHomeScreen2)
+    //     }
+    //     if (sour1 === images.backgroundHomeScreen2) {
+    //         setSour1(images.backgroundHomeScreen3)
+    //     }
+    //     if (sour1 === images.backgroundHomeScreen3) {
+    //         setSour1(images.backgroundHomeScreen)
+    //     }
+    // }
 
     return <ScrollView style={{
         flex: 1,
@@ -130,10 +110,13 @@ function HomeScreen(props) {
                         marginHorizontal: 5,
                         marginTop: 3
                     }}
+                    onPress={()=>{
+                        navigate('NhaKinh1')
+                    }}
                 >
                     <View style={{ alignItems: 'flex-end', justifyContent: 'center', flex: 1 }}>
                         <TouchableOpacity
-                            onPress={changeBackground}
+                            onPress={()=>navigate('NhaKinh1')}
                             key={1}
                         >
                             <Icon name="chevron-right" color="black" size={50} />
@@ -182,7 +165,7 @@ function HomeScreen(props) {
                 }}>
                     <View style={{
                         alignItems: 'center',
-                        width: 90,
+                        width: 110,
                         height: 70,
                         justifyContent: 'center',
                         borderWidth: 1,
@@ -202,7 +185,7 @@ function HomeScreen(props) {
                             color: 'black',
                             fontSize: 13
                         }}>
-                            {temI2C1}°C
+                            {temI2C1} °C
                         </Text>
                     </View>
                 </View>
@@ -212,7 +195,7 @@ function HomeScreen(props) {
                 }}>
                     <View style={{
                         alignItems: 'center',
-                        width: 90,
+                        width: 110,
                         height: 70,
                         justifyContent: 'center',
                         borderWidth: 1,
@@ -230,7 +213,7 @@ function HomeScreen(props) {
                             color: 'black',
                             fontSize: 13
                         }}>
-                            {lightI2C1}
+                            {lightI2C1} lux
                         </Text>
                     </View>
                 </View>
@@ -240,7 +223,7 @@ function HomeScreen(props) {
                 }}>
                     <View style={{
                         alignItems: 'center',
-                        width: 90,
+                        width: 110,
                         height: 70,
                         justifyContent: 'center',
                         borderWidth: 1,
@@ -258,7 +241,7 @@ function HomeScreen(props) {
                             color: 'black',
                             fontSize: 13
                         }}>
-                            {humI2C1}
+                            {humI2C1} %
                         </Text>
                     </View>
                 </View>
@@ -277,7 +260,8 @@ function HomeScreen(props) {
                 }}>
                     <Text style={{
                         color: 'black',
-                        marginHorizontal:5
+                        marginHorizontal:5,
+                        fontWeight:'bold'
                     }}>SHOW MORE</Text>
                     <Icon name="arrow-right" color="black" size={20}></Icon>
                 </TouchableOpacity>
@@ -294,7 +278,8 @@ function HomeScreen(props) {
             <Animatable.View
                 animation="zoomIn"
                 delay={1000}
-                style={{ flex: 50 }}>
+                style={{ flex: 50 }}
+                >
                 <ImageBackground
                     source={sour1}
                     resizeMode='cover'
@@ -303,10 +288,11 @@ function HomeScreen(props) {
                         marginHorizontal: 5,
                         marginTop: 3
                     }}
+                    
                 >
                     <View style={{ alignItems: 'flex-end', justifyContent: 'center', flex: 1 }}>
                         <TouchableOpacity
-                            onPress={changeBackground1}
+                            onPress={()=>navigate('NhaKinh2')}
                             key={1}
                         >
                             <Icon name="chevron-right" color="black" size={50} />
@@ -355,7 +341,7 @@ function HomeScreen(props) {
                 }}>
                     <View style={{
                         alignItems: 'center',
-                        width: 90,
+                        width: 110,
                         height: 70,
                         justifyContent: 'center',
                         borderWidth: 1,
@@ -375,7 +361,7 @@ function HomeScreen(props) {
                             color: 'black',
                             fontSize: 13
                         }}>
-                            {temI2C2}
+                            {temI2C2} °C
                         </Text>
                     </View>
                 </View>
@@ -385,7 +371,7 @@ function HomeScreen(props) {
                 }}>
                     <View style={{
                         alignItems: 'center',
-                        width: 90,
+                        width: 110,
                         height: 70,
                         justifyContent: 'center',
                         borderWidth: 1,
@@ -403,7 +389,7 @@ function HomeScreen(props) {
                             color: 'black',
                             fontSize: 13
                         }}>
-                            {lightI2C2}
+                            {lightI2C2} lux
                         </Text>
                     </View>
                 </View>
@@ -413,7 +399,7 @@ function HomeScreen(props) {
                 }}>
                     <View style={{
                         alignItems: 'center',
-                        width: 90,
+                        width: 110,
                         height: 70,
                         justifyContent: 'center',
                         borderWidth: 1,
@@ -431,7 +417,7 @@ function HomeScreen(props) {
                             color: 'black',
                             fontSize: 13
                         }}>
-                            {humI2C2}
+                            {humI2C2} %
                         </Text>
                     </View>
                 </View>
@@ -450,7 +436,8 @@ function HomeScreen(props) {
                 }}>
                     <Text style={{
                         color: 'black',
-                        marginHorizontal:5
+                        marginHorizontal:5,
+                        fontWeight:'bold'
                     }}>SHOW MORE</Text>
                     <Icon name="arrow-right" color="black" size={20}></Icon>
                 </TouchableOpacity>

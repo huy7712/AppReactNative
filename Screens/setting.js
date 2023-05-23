@@ -437,7 +437,7 @@ function Setting(props) {
                 />
                 <TouchableOpacity 
                 onPress={()=>{
-                    socket.emit("configRS485", '{"Client":{"houseID":2,"request":"WriteCMD","cmdAuto":"RS485","RS485a":1,"RS485 Funtion code":3,"register start address":"0,6","register lenght":"0,1","NoB":7,"cmdID":42,"time":' + getTimepH + '}}')
+                    socket.emit("configRS485", '{"Client":{"houseID":2,"request":"WriteCMD","cmdAuto":"RS485","RS485a":1,"RS485 Funtion code":3,"register start address":"0,6","register lenght":"0,1","NoB":7,"cmdID":42,"time":' + getTimepH + '}}');
                 }}
                 >
                     <Text style={{
@@ -481,7 +481,7 @@ function Setting(props) {
                 />
                 <TouchableOpacity
                 onPress={()=>{
-                    socket.emit("configRS485", '{"Client":{"houseID":2,"request":"WriteCMD","cmdAuto":"RS485","RS485a":1,"RS485 Funtion code":3,"register start address":"0,18","register lenght":"0,1","NoB":7,"cmdID":43,"time":' + getTimeRs485_moisture + '}}')
+                    socket.emit("configRS485", '{"Client":{"houseID":2,"request":"WriteCMD","cmdAuto":"RS485","RS485a":1,"RS485 Funtion code":3,"register start address":"0,18","register lenght":"0,1","NoB":7,"cmdID":43,"time":' + getTimeRs485_moisture + '}}');
                 }}
                 >
                     <Text style={{

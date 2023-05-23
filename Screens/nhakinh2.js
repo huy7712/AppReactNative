@@ -31,7 +31,7 @@ function Nhakinh(props) {
             let jsonData = JSON.parse(value);
             console.log(jsonData);
             switch (jsonData.i2ca) {
-                case 23:
+                case 35:
                     // lightI2C = (parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2)
                     switch (jsonData.houseID) {
                         
@@ -100,7 +100,7 @@ function Nhakinh(props) {
 // GET MODE 
     const [getMode, setGetMode] = useState('')
     useEffect(() => {
-        fetch('http://192.168.137.100:1234/api/getMode2')
+        fetch('http://192.168.0.100:1234/api/getMode2')
             .then(response => response.json())
             .then(data => {
                 data.forEach((item) => {
@@ -112,7 +112,7 @@ function Nhakinh(props) {
     useEffect(()=>{
         socket.on('display2', (data) => {
             let jsonData = JSON.parse(data)
-            console.log(jsonData)
+            // console.log(jsonData)
             let bit8 = jsonData.bit8
             let bit7 = jsonData.bit7
             let bit6 = jsonData.bit6
@@ -172,7 +172,7 @@ function Nhakinh(props) {
         })
     },[])
      useEffect(()=>{
-        fetch('http://192.168.137.100:1234/api/getButton2')
+        fetch('http://192.168.0.100:1234/api/getButton2')
         .then(response => response.json())
         .then(data => {
             data.forEach((item) => {
@@ -517,7 +517,7 @@ function Nhakinh(props) {
                                 alignItems: 'center',
                                 justifyContent: 'center'
                             }}>
-                                <ProGChart data={dataH2} />
+                                <ProGChart data={[hum_value/100]} />
                                 <Text style={{
                                     position: 'absolute',
                                     color: 'black',

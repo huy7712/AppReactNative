@@ -15,7 +15,8 @@ import UITabs from './navigation/UITab';
 import { UpdateUser } from './utilies/UpdateLocalData';
 import WeatherScreen from './utilies/UpdateLocalData';
 import Geolocation from 'react-native-geolocation-service';
+import Chartnhakinh2 from './Screens/chartmodule/chartnhakinh2';
 
-AppRegistry.registerComponent(appName, () => ()=> <Setting/>)
+AppRegistry.registerComponent(appName, () => ()=> <AppNav/>)
 
-this.socket = io ("http://192.168.137.100:1234", {jsonp:false}) 
+this.socket = io ("http://192.168.0.100:1234", {jsonp:false}) 
