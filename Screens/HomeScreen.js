@@ -34,10 +34,10 @@ function HomeScreen(props) {
                 //lightI2C = (parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2)
                 switch (jsonData.houseID) {
                     case 1:
-                        setLightI2C1((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2).toFixed(0));
+                        setLightI2C1((((jsonData.i2cd1 << 8) | jsonData.i2cd2) / 1.2).toFixed(2));
                         break
                     case 2:
-                        setLightI2C2((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) / 1.2).toFixed(0));
+                        setLightI2C2((((jsonData.i2cd1 << 8) | jsonData.i2cd2) / 1.2).toFixed(1))
                         break
                 }
                 break
@@ -46,17 +46,45 @@ function HomeScreen(props) {
                 // humI2C = (parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535)
                 switch (jsonData.houseID) {
                     case 1:
-                            setTemI2C1(((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) * 175 / 65535) - 45).toFixed(0));
-                            setHumI2C1((parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535).toFixed(2));
+                            setTemI2C1(((((jsonData.i2cd1 << 8) | jsonData.i2cd2) * 175 / 65535) - 45).toFixed(0));
+                            setHumI2C1(((((jsonData.i2cd4 << 8) | jsonData.i2cd5) * 100 / 65535)).toFixed(2));
                         break
                     case 2:
-                            setTemI2C2(((parseInt(jsonData.i2cd1.toString(16) + jsonData.i2cd2.toString(16), 16) * 175 / 65535) - 45).toFixed(0));
-                            setHumI2C2((parseInt(jsonData.i2cd4.toString(16) + jsonData.i2cd5.toString(16), 16) * 100 / 65535).toFixed(2));
+                            setTemI2C2(((((jsonData.i2cd1 << 8) | jsonData.i2cd2) * 175 / 65535) - 45).toFixed(0));
+                            setHumI2C2(((((jsonData.i2cd4 << 8) | jsonData.i2cd5) * 100 / 65535)).toFixed(2));
                         break
                 }
                 break
         }
 
+    })
+
+    const [status,setstatus]=useState(false)
+    const [status1,setstatus1]=useState(false)
+    socket.on('S-status', (data) => {
+        let jsonData = JSON.parse(data);
+        switch (jsonData.houseID) {
+            case 1:
+                switch (jsonData.msg) {
+                    case 'Lora_Offline':
+                        setstatus(true)
+                        break
+                    case 'Lora_Online':
+                        setstatus(false)
+                        break
+                }
+                break
+            case 2:
+                switch (jsonData.msg) {
+                    case 'Lora_Offline':
+                        setstatus1(true)
+                        break
+                    case 'Lora_Online':
+                        setstatus1(false)
+                        break
+                }
+                break
+        }
     })
 
     // function changeBackground() {
@@ -114,14 +142,26 @@ function HomeScreen(props) {
                         navigate('NhaKinh1')
                     }}
                 >
-                    <View style={{ alignItems: 'flex-end', justifyContent: 'center', flex: 1 }}>
+                    {status==true&&<View style={{
+                        alignItems:'center',
+                        flex:1,
+                        justifyContent:'center',
+                        backgroundColor:'white'
+                    }}>
+                        <Text style={{
+                            color:'black',
+                            fontWeight:'bold',
+                            fontSize:16
+                        }}>NHÀ 1 MẤT KẾT NỐI</Text>
+                    </View>}
+                    {/* <View style={{ alignItems: 'flex-end', justifyContent: 'center', flex: 1 }}>
                         <TouchableOpacity
                             onPress={()=>navigate('NhaKinh1')}
                             key={1}
                         >
                             <Icon name="chevron-right" color="black" size={50} />
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
                 </ImageBackground>
             </Animatable.View>
             <View style={{
@@ -287,17 +327,28 @@ function HomeScreen(props) {
                         flex: 50,
                         marginHorizontal: 5,
                         marginTop: 3
-                    }}
-                    
+                    }}   
                 >
-                    <View style={{ alignItems: 'flex-end', justifyContent: 'center', flex: 1 }}>
+                    {status1==true&&<View style={{
+                        alignItems:'center',
+                        flex:1,
+                        justifyContent:'center',
+                        backgroundColor:'white'
+                    }}>
+                        <Text style={{
+                            color:'black',
+                            fontWeight:'bold',
+                            fontSize:16
+                        }}>NHÀ 2 MẤT KẾT NỐI</Text>
+                    </View>}
+                    {/* <View style={{ alignItems: 'flex-end', justifyContent: 'center', flex: 1 }}>
                         <TouchableOpacity
                             onPress={()=>navigate('NhaKinh2')}
                             key={1}
                         >
                             <Icon name="chevron-right" color="black" size={50} />
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
                 </ImageBackground>
             </Animatable.View>
             <View style={{

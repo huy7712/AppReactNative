@@ -249,7 +249,6 @@ function LoginSceens(props) {
                     color='blue'
                     style={{marginEnd:10}}
                     />
-                    
                     </TouchableOpacity>
                     <TouchableOpacity>
                     <Image source={icons.gg_icon} style={{
@@ -263,7 +262,4 @@ function LoginSceens(props) {
         </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
     )
-
 }
-
-

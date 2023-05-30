@@ -4,6 +4,8 @@ import { TextInput, Text, View, Image, ImageBackground, TouchableOpacity, FlatLi
 import { isValidatePass, isValidating } from '../utilies/validating'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import moment from 'moment'
+import style from '../components/style'
+import text from '../components/text'
 import ChartLine from './chartmodule/chartmodul'
 import Chartnhakinh2 from './chartmodule/chartnhakinh2'
 
@@ -220,20 +222,8 @@ const [selectrueI2C, setselectrueI2C] = useState(true)
         {/*  */}
         {/*  */}
         {/* NHA KINH 1 */}
-        <Text style={{
-            fontSize: 16,
-            color: 'black',
-            fontWeight: 'bold',
-            marginBottom: 5,
-            marginHorizontal: 20
-        }}>Nhà Kính 1</Text>
-        <View style={{
-            height: 380,
-            marginHorizontal: 5,
-            borderWidth: 2,
-            marginBottom: 5,
-            marginTop: 5
-        }}>
+        <Text style={text.TextNhaKinhChartScreen}>Nhà Kính 1</Text>
+        <View style={style.ViewHeightChartScreen}>
             <View style={{
                 height: 60,
                 flexDirection: 'row',
@@ -247,16 +237,7 @@ const [selectrueI2C, setselectrueI2C] = useState(true)
                     {/* Nhiệt Độ */}
                     <TouchableOpacity
 
-                        style={{
-                            alignSelf: 'center',
-                            padding: 12,
-                            alignItems: 'center',
-                            borderWidth: 2,
-                            width: 130,
-                            marginHorizontal: 5,
-                            borderRadius: 30,
-                            backgroundColor: '#8DEEEE'
-                        }}
+                        style={style.TouchChartScreen}
                         onPress={() => {
                             setNameChart('Nhiệt Độ')
                             setUnit('°C')
@@ -270,10 +251,7 @@ const [selectrueI2C, setselectrueI2C] = useState(true)
                     >
                         <Text
 
-                            style={{
-                                color: 'black',
-                                alignSelf: 'center'
-                            }}>
+                            style={text.TextDevices}>
                             Nhiệt Độ
                         </Text>
                     </TouchableOpacity>
@@ -282,16 +260,7 @@ const [selectrueI2C, setselectrueI2C] = useState(true)
                     {/* Độ Ẩm */}
                     <TouchableOpacity
 
-                        style={{
-                            alignSelf: 'center',
-                            padding: 12,
-                            alignItems: 'center',
-                            borderWidth: 2,
-                            width: 130,
-                            marginHorizontal: 5,
-                            borderRadius: 30,
-                            backgroundColor: '#8DEEEE'
-                        }}
+                        style={style.TouchChartScreen}
                         onPress={() => {
                             setNameChart('Độ Ẩm')
                             setUnit('%')
@@ -305,10 +274,7 @@ const [selectrueI2C, setselectrueI2C] = useState(true)
                     >
                         <Text
 
-                            style={{
-                                color: 'black',
-                                alignSelf: 'center'
-                            }}>
+                            style={text.TextDevices}>
                             Độ Ẩm
                         </Text>
                     </TouchableOpacity>
@@ -317,16 +283,7 @@ const [selectrueI2C, setselectrueI2C] = useState(true)
                     {/* Ánh Sáng */}
                     <TouchableOpacity
 
-                        style={{
-                            alignSelf: 'center',
-                            padding: 12,
-                            alignItems: 'center',
-                            borderWidth: 2,
-                            width: 130,
-                            marginHorizontal: 5,
-                            borderRadius: 30,
-                            backgroundColor: '#8DEEEE'
-                        }}
+                        style={style.TouchChartScreen}
                         onPress={() => {
                             setNameChart('Ánh Sáng')
                             setUnit('lux')
@@ -340,10 +297,7 @@ const [selectrueI2C, setselectrueI2C] = useState(true)
                     >
                         <Text
 
-                            style={{
-                                color: 'black',
-                                alignSelf: 'center'
-                            }}>
+                            style={text.TextDevices}>
                             Ánh Sáng
                         </Text>
                     </TouchableOpacity>
@@ -352,16 +306,7 @@ const [selectrueI2C, setselectrueI2C] = useState(true)
                     {/* Độ Ẩm Đất */}
                     <TouchableOpacity
 
-                        style={{
-                            alignSelf: 'center',
-                            padding: 12,
-                            alignItems: 'center',
-                            borderWidth: 2,
-                            width: 130,
-                            marginHorizontal: 5,
-                            borderRadius: 30,
-                            backgroundColor: '#8DEEEE'
-                        }}
+                        style={style.TouchChartScreen}
                         onPress={() => {
                             setNameChart('Độ Ẩm Đất')
                             setUnit('%')
@@ -375,10 +320,7 @@ const [selectrueI2C, setselectrueI2C] = useState(true)
                     >
                         <Text
 
-                            style={{
-                                color: 'black',
-                                alignSelf: 'center'
-                            }}>
+                            style={text.TextDevices}>
                             Độ Ẩm Đất
                         </Text>
                     </TouchableOpacity>

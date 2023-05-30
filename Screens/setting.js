@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { images, icons } from '../constants/index'
 import { TextInput, Text, View, TouchableOpacity, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, FlatList, ScrollView } from '../node_modules/react-native'
 import { BTNUI, UIHeader } from '../components/index'
+import text from '../components/text'
+import style from '../components/style'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { Picker } from '@react-native-picker/picker'
 
@@ -154,15 +156,7 @@ function Setting(props) {
                 }}>cho địa chỉ (Ms)</Text>
                 </View>
                 <TextInput 
-                style={{
-                        height: 40,
-                        borderColor: 'gray',
-                        borderWidth: 1,
-                        padding: 10,
-                        flex:1,
-                        marginHorizontal:10,
-                        
-                    }}
+                style={text.TextInput}
                 placeholder='Number'
                 keyboardType={'numeric'}
                 onChangeText={(text)=>{
@@ -205,14 +199,7 @@ function Setting(props) {
                     </View>
                     <TextInput
                     key={`inputText ${index}`}
-                    style={{
-                        height: 40,
-                        borderColor: 'gray',
-                        borderWidth: 1,
-                        padding: 10,
-                        flex:1,
-                        marginHorizontal:10
-                    }}
+                    style={text.TextInput}
                 placeholder='Number'
                 keyboardType={'numeric'}
                 value={inputValue}
@@ -227,19 +214,11 @@ function Setting(props) {
 
                 }
                 }>
-                    <Text style={{
-                        color:'black',
-                        marginHorizontal:2,
-                        borderWidth:2,
-                        paddingHorizontal:5,
-                        width:70,
-                        height:40,
-                    }}>SUBMIT</Text>
+                    <Text style={text.TextSubmit}>SUBMIT</Text>
                 </TouchableOpacity>
 
                 </View>
-            ))}
-        
+            ))}       
         </View>
         {/*  */}
         {/*  */}
@@ -269,51 +248,6 @@ function Setting(props) {
                     }}>SCAN I2C</Text>
                 </TouchableOpacity>
             </View>
-            {/* <View style={{
-                flexDirection:'row',
-                marginTop:5,
-                marginBottom:5
-            }}>
-                <View style={{width:170}}>
-                <Text style={{
-                    color:'black'
-                }}>Nhập giá trị Read ADC</Text>
-                <Text style={{
-                    color:'black'
-                }}>cho địa chỉ (Ms)</Text>
-                </View>
-                <TextInput 
-                style={{
-                        height: 40,
-                        borderColor: 'gray',
-                        borderWidth: 1,
-                        padding: 10,
-                        flex:1,
-                        marginHorizontal:10,
-                        
-                    }}
-                placeholder='Number'
-                keyboardType={'numeric'}
-                onChangeText={(text)=>{
-                    setGettimeADC2(text)
-                }}
-                />
-                <TouchableOpacity 
-                onPress={()=>{
-                    socket.emit("config", '{"Client":{"houseID":2,"request":"WriteCMD","cmdAuto":"ReadAdc","adc":"1","cmdID":30,"time":' + getTimeADC2 + '}}')
-                   
-                }}
-                >
-                    <Text style={{
-                        color:'black',
-                        marginHorizontal:2,
-                        borderWidth:2,
-                        paddingHorizontal:5,
-                        width:70,
-                        height:40,
-                    }}>SUBMIT</Text>
-                </TouchableOpacity>
-            </View> */}
            {showElement2&&i2cAddresses2.map((address, index) => (
                 <View key={`View ${index}`} style={{flexDirection:'row'}}>
                     <View key={`View2 ${index}`} style={{width:170}}>
@@ -326,14 +260,7 @@ function Setting(props) {
                     </View>
                     <TextInput
                     key={`inputText ${index}`}
-                    style={{
-                        height: 40,
-                        borderColor: 'gray',
-                        borderWidth: 1,
-                        padding: 10,
-                        flex:1,
-                        marginHorizontal:10
-                    }}
+                    style={text.TextInput}
                 placeholder='Number'
                 keyboardType={'numeric'}
                 onChangeText={(value)=>{
@@ -343,14 +270,7 @@ function Setting(props) {
                 />
                 <TouchableOpacity 
                 onPress={() => sendData3(getTimeI2C2[index], address)}>
-                    <Text style={{
-                        color:'black',
-                        marginHorizontal:2,
-                        borderWidth:2,
-                        paddingHorizontal:5,
-                        width:70,
-                        height:40,
-                    }}>SUBMIT</Text>
+                    <Text style={text.TextSubmit}>SUBMIT</Text>
                 </TouchableOpacity>
 
                 </View>
@@ -373,14 +293,7 @@ function Setting(props) {
                 }}> NPK (Ms)</Text>
                 </View>
                 <TextInput 
-                style={{
-                        height: 40,
-                        borderColor: 'gray',
-                        borderWidth: 1,
-                        padding: 10,
-                        flex:1,
-                        marginHorizontal:10,
-                    }}
+                style={text.TextInput}
                 placeholder='Number'
                 keyboardType={'numeric'}
                 onChangeText={(text)=>{
@@ -392,14 +305,7 @@ function Setting(props) {
                     socket.emit("configRS485", '{"Client":{"houseID":2,"request":"WriteCMD","cmdAuto":"RS485","RS485a":1,"RS485 Funtion code":3,"register start address":"0,30","register lenght":"0,3","NoB":11,"cmdID":41,"time":' + getTimeNPK + '}}');
                 }}
                 >
-                    <Text style={{
-                        color:'black',
-                        marginHorizontal:2,
-                        borderWidth:2,
-                        paddingHorizontal:5,
-                        width:70,
-                        height:40,
-                    }}
+                    <Text style={text.TextSubmit}
                     >SUBMIT</Text>
                 </TouchableOpacity>
             </View>
@@ -420,15 +326,7 @@ function Setting(props) {
                 }}> pH (Ms)</Text>
                 </View>
                 <TextInput 
-                style={{
-                        height: 40,
-                        borderColor: 'gray',
-                        borderWidth: 1,
-                        padding: 10,
-                        flex:1,
-                        marginHorizontal:10,
-                        
-                    }}
+                style={text.TextInput}
                 placeholder='Number'
                 keyboardType={'numeric'}
                 onChangeText={(text)=>{
@@ -440,14 +338,7 @@ function Setting(props) {
                     socket.emit("configRS485", '{"Client":{"houseID":2,"request":"WriteCMD","cmdAuto":"RS485","RS485a":1,"RS485 Funtion code":3,"register start address":"0,6","register lenght":"0,1","NoB":7,"cmdID":42,"time":' + getTimepH + '}}');
                 }}
                 >
-                    <Text style={{
-                        color:'black',
-                        marginHorizontal:2,
-                        borderWidth:2,
-                        paddingHorizontal:5,
-                        width:70,
-                        height:40,
-                    }}>SUBMIT</Text>
+                    <Text style={text.TextSubmit}>SUBMIT</Text>
                 </TouchableOpacity>
             </View>
             <View style={{
@@ -464,15 +355,7 @@ function Setting(props) {
                 }}> Độ Ẩm (Ms)</Text>
                 </View>
                 <TextInput 
-                style={{
-                        height: 40,
-                        borderColor: 'gray',
-                        borderWidth: 1,
-                        padding: 10,
-                        flex:1,
-                        marginHorizontal:10,
-                        
-                    }}
+                style={text.TextInput}
                 placeholder='Number'
                 keyboardType={'numeric'}
                 onChangeText={(text)=>{
@@ -484,23 +367,11 @@ function Setting(props) {
                     socket.emit("configRS485", '{"Client":{"houseID":2,"request":"WriteCMD","cmdAuto":"RS485","RS485a":1,"RS485 Funtion code":3,"register start address":"0,18","register lenght":"0,1","NoB":7,"cmdID":43,"time":' + getTimeRs485_moisture + '}}');
                 }}
                 >
-                    <Text style={{
-                        color:'black',
-                        marginHorizontal:2,
-                        borderWidth:2,
-                        paddingHorizontal:5,
-                        width:70,
-                        height:40,
-                    }}>SUBMIT</Text>
+                    <Text style={text.TextSubmit}>SUBMIT</Text>
                 </TouchableOpacity>
             </View>
         </View>
 
     </ScrollView>
 }
-
-
-
-
-
 export default Setting

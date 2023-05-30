@@ -9,10 +9,10 @@ import { ModeContext } from './getMode'
 function ModeScreen(props) {
 
     const [selectedValue, setSelectedValue] = useState('1')
-    const [getMode1, setGetMode1] = useState('')
-    const [getColor1, setGetColor1] = useState('')
-    const [getMode2, setGetMode2] = useState('')
-    const [getColor2, setGetColor2] = useState('')
+    const [getMode1, setGetMode1] = useState('toggle-off')
+    const [getColor1, setGetColor1] = useState('black')
+    const [getMode2, setGetMode2] = useState('toggle-off')
+    const [getColor2, setGetColor2] = useState('black')
     
     // const {setMode,setMode2}=useContext(ModeContext)
 
@@ -34,10 +34,30 @@ function ModeScreen(props) {
     const [getlightlow2,SetGetlightlow2]=useState('')
     const [getlighthight2,SetGetlighthight2]=useState('')
 
+    // 
+    const [getviewhumlow1,SetGetViewhumlow1]=useState('Number')
+    const [getviewhumhight1,SetGetViewhumhight1]=useState('Number')
+    
+    const [getviewtemlow1,SetGetViewtemlow1]=useState('Number')
+    const [getviewtemhight1,SetGetViewtemhight1]=useState('Number')
+    
+    const [getviewlightlow1,SetGetViewlightlow1]=useState('Number')
+    const [getviewlighthight1,SetGetViewlighthight1]=useState('Number')
+    
+    const [getviewhumlow2,SetGetViewhumlow2]=useState('Number')
+    const [getviewhumhight2,SetGetViewhumhight2]=useState('Number')
+    
+    const [getviewtemlow2,SetGetViewtemlow2]=useState('Number')
+    const [getviewtemhight2,SetGetViewtemhight2]=useState('Number')
+    
+    const [getviewlightlow2,SetGetViewlightlow2]=useState('Number')
+    const [getviewlighthight2,SetGetViewlighthight2]=useState('Number')
+
     useEffect(() => {
-        fetch('http://192.168.137.100:1234/api/getMode1')
+        fetch('https://raspi.iotgreenhouse.tech/api/getMode1')
             .then(response => response.json())
             .then(data => {
+                // console.log(data)
                 data.forEach((item) => {
                     if (item.mode==1){
                         setGetMode1('toggle-on')
@@ -52,7 +72,7 @@ function ModeScreen(props) {
     }, [])
 
     useEffect(() => {
-        fetch('http://192.168.137.100:1234/api/getMode2')
+        fetch('https://raspi.iotgreenhouse.tech/api/getMode2')
             .then(response => response.json())
             .then(data => {
                 data.forEach((item) => {
@@ -67,6 +87,36 @@ function ModeScreen(props) {
                 })
             })
     }, [])
+
+    useEffect(()=>{
+        socket.on('displaymode1',(data)=>{
+            switch (data){
+                case 'auto':
+                    setGetMode1('toggle-on')
+                    setGetColor1('blue')
+                    break;
+                case 'manual':
+                    setGetMode1('toggle-off')
+                    setGetColor1('black')
+                    break;
+            }
+        })
+    })
+    
+    useEffect(()=>{
+        socket.on('displaymode2',(data)=>{
+            switch (data){
+                case 'auto':
+                    setGetMode2('toggle-on')
+                    setGetColor2('blue')
+                    break;
+                case 'manual':
+                    setGetMode2('toggle-off')
+                    setGetColor2('black')
+                    break;
+            }
+        })
+    })
 
 
     function MODE1() {
@@ -97,6 +147,38 @@ function ModeScreen(props) {
             // setMode2(0)
         }
     }
+    // LẤY GIÁ TRỊ NGƯỠNG
+    useEffect (()=>{
+        socket.on('defaultValue',(data)=>{
+            let jsonData = JSON.parse(data)
+            SetGetViewhumlow1(jsonData.lowHum1)
+            SetGetViewhumhight1(jsonData.highHum1)
+            SetGetViewhumlow2(jsonData.lowHum2)
+            SetGetViewhumhight2(jsonData.highHum2)
+            SetGethumlow1(jsonData.lowHum1)
+            SetGethumlow2(jsonData.lowHum2)
+            SetGethumhight1(jsonData.highHum1)
+            SetGethumhight2(jsonData.highHum2)
+
+            SetGetViewlightlow1(jsonData.lowLight1)
+            SetGetViewlighthight1(jsonData.highLight1)
+            SetGetViewlightlow2(jsonData.lowLight2)
+            SetGetViewlighthight2(jsonData.highLight2)
+            SetGetlightlow1(jsonData.lowLight1)
+            SetGetlightlow2(jsonData.lowLight2)
+            SetGetlighthight1(jsonData.highLight1)
+            SetGetlighthight2(jsonData.highLight2)
+
+            SetGetViewtemlow1(jsonData.lowTem1)
+            SetGetViewtemlow2(jsonData.lowTem2)
+            SetGetViewtemhight1(jsonData.highTem1)
+            SetGetViewtemhight2(jsonData.highTem2)
+            SetGettemlow1(jsonData.lowTem1)
+            SetGettemlow2(jsonData.lowTem2)
+            SetGettemhight1(jsonData.highTem1)
+            SetGettemhight2(jsonData.highTem2)
+        })
+    })
 
     return <View style={{
         flex: 1,
@@ -186,7 +268,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder='Number'
+                            placeholder={getviewhumlow1}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGethumlow1(text)
@@ -213,7 +295,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder='Number'
+                            placeholder={getviewhumhight1}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGethumhight1(text)
@@ -265,7 +347,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder='Number'
+                            placeholder={getviewtemlow1}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGettemlow1(text)
@@ -292,7 +374,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder='Number'
+                            placeholder={getviewtemhight1}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGettemhight1(text)
@@ -344,7 +426,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder='Number'
+                            placeholder={getviewlightlow1}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGetlightlow1(text)
@@ -371,7 +453,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder='Number'
+                            placeholder={getviewlighthight1}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGetlighthight1(text)
@@ -448,7 +530,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder='Number'
+                            placeholder={getviewhumlow2}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGethumlow2(text)
@@ -475,7 +557,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder='Number'
+                            placeholder={getviewhumhight2}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGethumhight2(text)
@@ -527,7 +609,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder='Number'
+                            placeholder={getviewtemlow2}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGettemlow2(text)
@@ -554,7 +636,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder='Number'
+                            placeholder={getviewtemhight2}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGettemhight2(text)
@@ -606,7 +688,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder='Number'
+                            placeholder={getviewlightlow2}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGetlightlow2(text)
@@ -633,7 +715,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder='Number'
+                            placeholder={getviewlighthight2}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGetlighthight2(text)
@@ -651,9 +733,14 @@ function ModeScreen(props) {
         <View style={{ flex: 1 }}></View>
         <TouchableOpacity 
         onPress={()=>{
+            if (gethumlow1==gethumhight1||gethumlow2==gethumhight2||getlightlow1==getlighthight1||
+                getlightlow2==getlighthight2||gettemlow1==gettemhight1||gettemlow2==gettemhight2){
+                    Alert.alert('Cảnh Báo:','Có 1 ngưỡng đang trùng nhau')
+                }
+            else{
             socket.emit('getAutoValue', '{"lowHum1":' + gethumlow1 + ',"highHum1":' + gethumhight1 + ',"lowHum2":' + gethumlow2 + ',"highHum2":' + gethumhight2 + ',"lowLight1":' + getlightlow1 + ',"highLight1":' + getlighthight1 + ',"lowLight2":' + getlightlow2 + ',"highLight2":' + getlighthight2 + ',"lowTem1":' + gettemlow1 + ',"highTem1":' + gettemhight1 + ',"lowTem2":' + gettemlow2 + ',"highTem2":' + gettemhight2 + '}')
-            // console.log('{"lowHum1":' + gethumlow1 + ',"highHum1":' + gethumhight1 + ',"lowHum2":' + gethumlow2 + ',"highHum2":' + gethumhight2 + ',"lowLight1":' + getlightlow1 + ',"highLight1":' + getlighthight1 + ',"lowLight2":' + getlightlow2 + ',"highLight2":' + getlighthight2 + ',"lowTem1":' + gettemlow1 + ',"highTem1":' + gettemhight1 + ',"lowTem2":' + gettemlow2 + ',"highTem2":' + gettemhight2 + '}')
-
+            console.log('{"lowHum1":' + gethumlow1 + ',"highHum1":' + gethumhight1 + ',"lowHum2":' + gethumlow2 + ',"highHum2":' + gethumhight2 + ',"lowLight1":' + getlightlow1 + ',"highLight1":' + getlighthight1 + ',"lowLight2":' + getlightlow2 + ',"highLight2":' + getlighthight2 + ',"lowTem1":' + gettemlow1 + ',"highTem1":' + gettemhight1 + ',"lowTem2":' + gettemlow2 + ',"highTem2":' + gettemhight2 + '}')
+        }
         }}
         style={{
             marginBottom: 90,

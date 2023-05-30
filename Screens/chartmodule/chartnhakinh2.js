@@ -1,6 +1,8 @@
 import React, { useState, useEffect, createContext, useContext } from 'react'
 import { TextInput, Text, View, Image, ImageBackground, TouchableOpacity, FlatList, TouchableWithoutFeedback, Platform, Alert, ScrollView } from 'react-native'
 import moment from 'moment'
+import style from '../../components/style'
+import text from '../../components/text'
 import Spinner from 'react-native-loading-spinner-overlay/lib'
 import ChartLine from './chartmodul'
 
@@ -354,20 +356,8 @@ function Chartnhakinh2() {
     }, [])
 
     return <View>
-        <Text style={{
-            fontSize: 16,
-            color: 'black',
-            fontWeight: 'bold',
-            marginBottom: 5,
-            marginHorizontal: 20
-        }}>Nhà Kính 2</Text>
-        <View style={{
-            height: 380,
-            marginHorizontal: 5,
-            borderWidth: 2,
-            marginBottom: 5,
-            marginTop: 5
-        }}>
+        <Text style={text.TextNhaKinhChartScreen}>Nhà Kính 2</Text>
+        <View style={style.ViewHeightChartScreen}>
             <View style={{
                 height: 60,
                 flexDirection: 'row',
@@ -386,16 +376,7 @@ function Chartnhakinh2() {
                     {/* Nhiệt Độ */}
                     <TouchableOpacity
 
-                        style={{
-                            alignSelf: 'center',
-                            padding: 12,
-                            alignItems: 'center',
-                            borderWidth: 2,
-                            width: 130,
-                            marginHorizontal: 5,
-                            borderRadius: 30,
-                            backgroundColor: '#8DEEEE'
-                        }}
+                        style={style.TouchChartScreen}
                         onPress={() => {
                             setNameChart1('Nhiệt Độ')
                             setUnit1('°C')
@@ -419,10 +400,7 @@ function Chartnhakinh2() {
                     >
                         <Text
 
-                            style={{
-                                color: 'black',
-                                alignSelf: 'center'
-                            }}>
+                            style={text.TextDevices}>
                             Nhiệt Độ
                         </Text>
                     </TouchableOpacity>
@@ -431,16 +409,7 @@ function Chartnhakinh2() {
                     {/* Độ Ẩm */}
                     <TouchableOpacity
 
-                        style={{
-                            alignSelf: 'center',
-                            padding: 12,
-                            alignItems: 'center',
-                            borderWidth: 2,
-                            width: 130,
-                            marginHorizontal: 5,
-                            borderRadius: 30,
-                            backgroundColor: '#8DEEEE'
-                        }}
+                        style={style.TouchChartScreen}
                         onPress={() => {
                             setNameChart1('Độ Ẩm')
                             setUnit1('%')
@@ -464,10 +433,7 @@ function Chartnhakinh2() {
                     >
                         <Text
 
-                            style={{
-                                color: 'black',
-                                alignSelf: 'center'
-                            }}>
+                            style={text.TextDevices}>
                             Độ Ẩm
                         </Text>
                     </TouchableOpacity>
@@ -476,16 +442,7 @@ function Chartnhakinh2() {
                     {/* Ánh Sáng */}
                     <TouchableOpacity
 
-                        style={{
-                            alignSelf: 'center',
-                            padding: 12,
-                            alignItems: 'center',
-                            borderWidth: 2,
-                            width: 130,
-                            marginHorizontal: 5,
-                            borderRadius: 30,
-                            backgroundColor: '#8DEEEE'
-                        }}
+                        style={style.TouchChartScreen}
                         onPress={() => {
                             setNameChart1('Ánh Sáng')
                             setUnit1('lux')
@@ -509,10 +466,7 @@ function Chartnhakinh2() {
                     >
                         <Text
 
-                            style={{
-                                color: 'black',
-                                alignSelf: 'center'
-                            }}>
+                            style={text.TextDevices}>
                             Ánh Sáng
                         </Text>
                     </TouchableOpacity>
@@ -521,16 +475,7 @@ function Chartnhakinh2() {
                     {/* Độ Ẩm Đất */}
                     <TouchableOpacity
 
-                        style={{
-                            alignSelf: 'center',
-                            padding: 12,
-                            alignItems: 'center',
-                            borderWidth: 2,
-                            width: 130,
-                            marginHorizontal: 5,
-                            borderRadius: 30,
-                            backgroundColor: '#8DEEEE'
-                        }}
+                        style={style.TouchChartScreen}
                         onPress={() => {
                             setNameChart1('Độ Ẩm Đất')
                             setUnit1('%')
@@ -554,10 +499,7 @@ function Chartnhakinh2() {
                     >
                         <Text
 
-                            style={{
-                                color: 'black',
-                                alignSelf: 'center'
-                            }}>
+                            style={text.TextDevices}>
                             Độ Ẩm Đất
                         </Text>
                     </TouchableOpacity>
@@ -566,16 +508,7 @@ function Chartnhakinh2() {
                     {/* pH */}
                     <TouchableOpacity
 
-                        style={{
-                            alignSelf: 'center',
-                            padding: 12,
-                            alignItems: 'center',
-                            borderWidth: 2,
-                            width: 130,
-                            marginHorizontal: 5,
-                            borderRadius: 30,
-                            backgroundColor: '#8DEEEE'
-                        }}
+                        style={style.TouchChartScreen}
                         onPress={() => {
                             setNameChart1('pH')
                             setUnit1('pH')
@@ -599,10 +532,7 @@ function Chartnhakinh2() {
                     >
                         <Text
 
-                            style={{
-                                color: 'black',
-                                alignSelf: 'center'
-                            }}>
+                            style={text.TextDevices}>
                             pH
                         </Text>
                     </TouchableOpacity>
@@ -611,16 +541,7 @@ function Chartnhakinh2() {
                     {/* N */}
                     <TouchableOpacity
 
-                        style={{
-                            alignSelf: 'center',
-                            padding: 12,
-                            alignItems: 'center',
-                            borderWidth: 2,
-                            width: 130,
-                            marginHorizontal: 5,
-                            borderRadius: 30,
-                            backgroundColor: '#8DEEEE'
-                        }}
+                        style={style.TouchChartScreen}
                         onPress={() => {
                             setNameChart1('Nitrogen')
                             setUnit1('mg/kg')
@@ -644,10 +565,7 @@ function Chartnhakinh2() {
                     >
                         <Text
 
-                            style={{
-                                color: 'black',
-                                alignSelf: 'center'
-                            }}>
+                            style={text.TextDevices}>
                             Nitrogen
                         </Text>
                     </TouchableOpacity>
@@ -656,16 +574,7 @@ function Chartnhakinh2() {
                     {/* Phosphorus */}
                     <TouchableOpacity
 
-                        style={{
-                            alignSelf: 'center',
-                            padding: 12,
-                            alignItems: 'center',
-                            borderWidth: 2,
-                            width: 130,
-                            marginHorizontal: 5,
-                            borderRadius: 30,
-                            backgroundColor: '#8DEEEE'
-                        }}
+                        style={style.TouchChartScreen}
                         onPress={() => {
                             setNameChart1('Phosphorus')
                             setUnit1('mg/kg')
@@ -689,10 +598,7 @@ function Chartnhakinh2() {
                     >
                         <Text
 
-                            style={{
-                                color: 'black',
-                                alignSelf: 'center'
-                            }}>
+                            style={text.TextDevices}>
                             Phosphorus
                         </Text>
                     </TouchableOpacity>
@@ -700,16 +606,7 @@ function Chartnhakinh2() {
                     {/*  */}
                     {/* Potassium */}
                     <TouchableOpacity
-                        style={{
-                            alignSelf: 'center',
-                            padding: 12,
-                            alignItems: 'center',
-                            borderWidth: 2,
-                            width: 130,
-                            marginHorizontal: 5,
-                            borderRadius: 30,
-                            backgroundColor: '#8DEEEE'
-                        }}
+                        style={style.TouchChartScreen}
                         onPress={() => {
                             setNameChart1('Potassium')
                             setUnit1('mg/kg')
@@ -733,10 +630,7 @@ function Chartnhakinh2() {
                     >
                         <Text
 
-                            style={{
-                                color: 'black',
-                                alignSelf: 'center'
-                            }}>
+                            style={text.TextDevices}>
                             Potassium
                         </Text>
                     </TouchableOpacity>

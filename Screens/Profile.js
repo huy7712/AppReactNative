@@ -7,6 +7,10 @@ const Profile = () => {
   const { profileData } = useContext(DataContext);
   // Sử dụng dữ liệu profileData trong màn hình profiles
   // { username: 'JohnDoe', email: 'johndoe@example.com' }
+      // naivgation
+      const {navigation,route}=props
+      // funtion of navigate to/back
+      const {navigate,goback}=navigation
   return <View style={{
     flex: 1
   }}>
@@ -93,7 +97,11 @@ const Profile = () => {
           alignSelf:'center',
           borderRadius:20,
           marginBottom:20
-        }}>
+        }}
+        onPress={() => {
+          navigate('LoginSceens')
+      }}
+        >
           <Text style={{
             color:'black',
             fontSize:20,

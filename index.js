@@ -19,4 +19,4 @@ import Chartnhakinh2 from './Screens/chartmodule/chartnhakinh2';
 
 AppRegistry.registerComponent(appName, () => ()=> <AppNav/>)
 
-this.socket = io ("http://192.168.0.100:1234", {jsonp:false}) 
+this.socket = io ("https://raspi.iotgreenhouse.tech", {jsonp:false}) 
