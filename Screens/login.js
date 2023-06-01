@@ -37,13 +37,13 @@ function LoginSceens(props) {
     const [data, setData] = useState([]);
     const customRandomFallback = (size) => {
         const buffer = require('react-native-randombytes').randomBytes(size);
-        return buffer.toString('hex');
+        return buffer;
       };
     bcrypt.setRandomFallback(customRandomFallback)
 
 
   useEffect(() => {
-    fetch('http://52.76.44.17:3000/api/user')
+    fetch('https://raspi.iotgreenhouse.tech/api/user')
       .then(response => response.json())
       .then(json => setData(json))
       .catch(error => console.error(error));
@@ -114,7 +114,7 @@ function LoginSceens(props) {
                     }
                     onEndEditing={()=>{
                         setUser(data.find(item=> item.email===email)) 
-                        console.log(data.find(item=> item.email===email))      
+                        // console.log(data.find(item=> item.email===email))      
                     }}
                     
                     keyboardType="email-address">

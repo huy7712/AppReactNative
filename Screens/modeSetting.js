@@ -202,8 +202,8 @@ function ModeScreen(props) {
 
                 }}
             >
-                <Picker.Item label="NHA KINH 1" value="1" />
-                <Picker.Item label="NHA KINH 2" value="2" />
+                <Picker.Item label="NHÀ KÍNH 1" value="1" />
+                <Picker.Item label="NHÀ KÍNH 2" value="2" />
 
             </Picker>
         </View>
@@ -268,7 +268,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder={getviewhumlow1}
+                            placeholder={`${getviewhumlow1}`}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGethumlow1(text)
@@ -295,7 +295,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder={getviewhumhight1}
+                            placeholder={`${getviewhumhight1}`}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGethumhight1(text)
@@ -347,7 +347,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder={getviewtemlow1}
+                            placeholder={`${getviewtemlow1}`}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGettemlow1(text)
@@ -374,7 +374,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder={getviewtemhight1}
+                            placeholder={`${getviewtemhight1}`}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGettemhight1(text)
@@ -426,7 +426,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder={getviewlightlow1}
+                            placeholder={`${getviewlightlow1}`}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGetlightlow1(text)
@@ -435,7 +435,7 @@ function ModeScreen(props) {
                         <Text style={{
                             alignSelf: 'center'
                         }}>
-                            %
+                            lux
                         </Text>
                     </View>
 
@@ -453,7 +453,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder={getviewlighthight1}
+                            placeholder={`${getviewlighthight1}`}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGetlighthight1(text)
@@ -462,7 +462,7 @@ function ModeScreen(props) {
                         <Text style={{
                             alignSelf: 'center'
                         }}>
-                            %
+                            lux
                         </Text>
                     </View>
                 </View>
@@ -530,7 +530,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder={getviewhumlow2}
+                            placeholder={`${getviewhumlow2}`}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGethumlow2(text)
@@ -557,7 +557,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder={getviewhumhight2}
+                            placeholder={`${getviewhumhight2}`}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGethumhight2(text)
@@ -609,7 +609,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder={getviewtemlow2}
+                            placeholder={`${getviewtemlow2}`}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGettemlow2(text)
@@ -636,7 +636,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder={getviewtemhight2}
+                            placeholder={`${getviewtemhight2}`}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGettemhight2(text)
@@ -688,7 +688,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder={getviewlightlow2}
+                            placeholder={`${getviewlightlow2}`}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGetlightlow2(text)
@@ -715,7 +715,7 @@ function ModeScreen(props) {
                             borderColor: 'gray',
                             borderWidth: 2
                         }}
-                            placeholder={getviewlighthight2}
+                            placeholder={`${getviewlighthight2}`}
                             keyboardType={'numeric'}
                             onChangeText={(text)=>{
                                 SetGetlighthight2(text)

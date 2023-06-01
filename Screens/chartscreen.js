@@ -39,7 +39,7 @@ const [selectrueadc, setselectrueadc] = useState(true)
     const updatedValueadc = [];
     const updatedTimeadc = [];
     function fetchDataadc() {
-        fetch('http://192.168.0.100:1234/api/adc1Active')
+        fetch('https://raspi.iotgreenhouse.tech/api/adc1Active')
             .then(response => response.json())
             .then(json => {
                 const data = json; // Lưu trữ dữ liệu vào biến trung gian
@@ -58,7 +58,7 @@ const [selectrueadc, setselectrueadc] = useState(true)
             .catch(error => console.error(error));
     }
     useEffect(() => {
-        fetch('http://192.168.0.100:1234/api/adc1Start')
+        fetch('https://raspi.iotgreenhouse.tech/api/adc1Start')
             .then(response => response.json())
             .then(data => {
                 data.forEach((item) => {
@@ -96,7 +96,7 @@ const [selectrue, setselectrue] = useState(true)
     const updatedValueChart = [];
     const updatedTimeChart = [];
     function fetchData() {
-        fetch('http://192.168.0.100:1234/api/lightI2C1Active')
+        fetch('https://raspi.iotgreenhouse.tech/api/lightI2C1Active')
             .then(response => response.json())
             .then(json => {
                 const data = json; // Lưu trữ dữ liệu vào biến trung gian
@@ -118,7 +118,7 @@ const [selectrue, setselectrue] = useState(true)
             .catch(error => console.error(error));
     }
     useEffect(() => {
-        fetch('http://192.168.0.100:1234/api/lightI2C1Start')
+        fetch('https://raspi.iotgreenhouse.tech/api/lightI2C1Start')
             .then(response => response.json())
             .then(data => {
                 data.forEach((item) => {
@@ -164,7 +164,7 @@ const [selectrueI2C, setselectrueI2C] = useState(true)
     const updatedTem = [];
     const updatedTimeI2C = [];
     function fetchDataI2C() {
-        fetch('http://192.168.0.100:1234/api/temHumI2C1Active')
+        fetch('https://raspi.iotgreenhouse.tech/api/temHumI2C1Active')
             .then(response => response.json())
             .then(json => {
                 const data = json; // Lưu trữ dữ liệu vào biến trung gian
@@ -188,7 +188,7 @@ const [selectrueI2C, setselectrueI2C] = useState(true)
             .catch(error => console.error(error));
     }
     useEffect(() => {
-        fetch('http://192.168.0.100:1234/api/temHumI2C1Start')
+        fetch('https://raspi.iotgreenhouse.tech/api/temHumI2C1Start')
             .then(response => response.json())
             .then(data => {
                 data.forEach((item) => {

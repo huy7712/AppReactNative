@@ -29,12 +29,12 @@ function Setting(props) {
     const handleInputChange = (index, value) => {
         const newInputs = [...getTimeI2C];
         newInputs[index] = value;
-        setGettimeI2C(newInputs);
+        setGettimeI2C(newInputs*1000);
       };
     const handleInputChange2 = (index, value) => {
         const newInputs = [...getTimeI2C2];
         newInputs[index] = value;
-        setGettimeI2C2(newInputs);
+        setGettimeI2C2(newInputs*1000);
       };
 
 
@@ -110,6 +110,20 @@ function Setting(props) {
  
     }
 
+    const [valueADC,setValueADC]=useState('Number')
+    const [valueNPK,setValueNPK]=useState('Number')
+    const [valuePh,setValuePh]=useState('Number')
+    const [valuehum485,setValuehum485]=useState('Number')
+
+    socket.on('getValueTimer', (data) => {
+        let jsonData = JSON.parse(data)
+        console.log(jsonData)
+        setValueADC(jsonData.adc / 1000);
+        setValueNPK(jsonData.npk485 / 1000);
+        setValuePh(jsonData.pH / 1000);
+        setValuehum485(jsonData.hum / 1000);
+    })
+
     return <ScrollView style={{
         flex: 1,
     }}>
@@ -127,7 +141,7 @@ function Setting(props) {
                 alignSelf:'center',
                 fontWeight:'bold',
             }}>
-                NHA KINH 1
+                NHÀ KÍNH 1
             </Text>
             <View>
                 <TouchableOpacity onPress={()=>{
@@ -153,14 +167,14 @@ function Setting(props) {
                 }}>Nhập giá trị Read ADC</Text>
                 <Text style={{
                     color:'black'
-                }}>cho địa chỉ (Ms)</Text>
+                }}>cho địa chỉ (giây)</Text>
                 </View>
                 <TextInput 
                 style={text.TextInput}
-                placeholder='Number'
+                placeholder={`${valueADC}`}
                 keyboardType={'numeric'}
                 onChangeText={(text)=>{
-                    setGettimeADC(text)
+                    setGettimeADC(text*1000)
                 }}
 
                 />
@@ -222,7 +236,7 @@ function Setting(props) {
         </View>
         {/*  */}
         {/*  */}
-        {/* NNHA KINH 2 */}
+        {/* NNHÀ KÍNH 2 */}
         <View style={{
             marginHorizontal:10,
             minHeight:350,
@@ -236,7 +250,7 @@ function Setting(props) {
                 alignSelf:'center',
                 fontWeight:'bold',
             }}>
-                NHA KINH 2
+                NHÀ KÍNH 2
             </Text>
             <View>
                 <TouchableOpacity onPress={()=>{
@@ -287,17 +301,17 @@ function Setting(props) {
                 <View style={{width:170}}>
                 <Text style={{
                     color:'black'
-                }}>cài đặt thơi gian cho</Text>
+                }}>Cài đặt thơi gian cho</Text>
                 <Text style={{
                     color:'black'
-                }}> NPK (Ms)</Text>
+                }}> NPK (giây)</Text>
                 </View>
                 <TextInput 
                 style={text.TextInput}
-                placeholder='Number'
+                placeholder={`${valueNPK}`}
                 keyboardType={'numeric'}
                 onChangeText={(text)=>{
-                    setGettimeNPK(text)
+                    setGettimeNPK(text*1000)
                 }}
                 />
                 <TouchableOpacity 
@@ -320,17 +334,17 @@ function Setting(props) {
                 <View style={{width:170}}>
                 <Text style={{
                     color:'black'
-                }}>cài đặt thơi gian cho</Text>
+                }}>Cài đặt thơi gian cho</Text>
                 <Text style={{
                     color:'black'
-                }}> pH (Ms)</Text>
+                }}> pH (giây)</Text>
                 </View>
                 <TextInput 
                 style={text.TextInput}
-                placeholder='Number'
+                placeholder={`${valuePh}`}
                 keyboardType={'numeric'}
                 onChangeText={(text)=>{
-                    setGettimepH(text)
+                    setGettimepH(text*1000)
                 }}
                 />
                 <TouchableOpacity 
@@ -349,17 +363,17 @@ function Setting(props) {
                 <View style={{width:170}}>
                 <Text style={{
                     color:'black'
-                }}>cài đặt thơi gian cho</Text>
+                }}>Cài đặt thơi gian cho</Text>
                 <Text style={{
                     color:'black'
-                }}> Độ Ẩm (Ms)</Text>
+                }}> Độ Ẩm (giây)</Text>
                 </View>
                 <TextInput 
                 style={text.TextInput}
-                placeholder='Number'
+                placeholder={`${valuehum485}`}
                 keyboardType={'numeric'}
                 onChangeText={(text)=>{
-                    setGettimeRs485_moisture(text)
+                    setGettimeRs485_moisture(text*1000)
                 }}
                 />
                 <TouchableOpacity

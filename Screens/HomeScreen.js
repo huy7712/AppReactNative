@@ -142,7 +142,7 @@ function HomeScreen(props) {
                         navigate('NhaKinh1')
                     }}
                 >
-                    {status==true&&<View style={{
+                    {status==true?<View style={{
                         alignItems:'center',
                         flex:1,
                         justifyContent:'center',
@@ -153,7 +153,13 @@ function HomeScreen(props) {
                             fontWeight:'bold',
                             fontSize:16
                         }}>NHÀ 1 MẤT KẾT NỐI</Text>
-                    </View>}
+                    </View>:
+                    <TouchableOpacity style={{
+                        flex:1,
+                    }}
+                    onPress={()=>{
+                        navigate('NhaKinh1')
+                    }}/>}
                     {/* <View style={{ alignItems: 'flex-end', justifyContent: 'center', flex: 1 }}>
                         <TouchableOpacity
                             onPress={()=>navigate('NhaKinh1')}
@@ -172,7 +178,7 @@ function HomeScreen(props) {
                     color: 'black',
                     fontSize: 20,
                     fontWeight: 'bold'
-                }}>NHA KINH 1</Text>
+                }}>NHÀ KÍNH 1</Text>
             </View>
             <View style={{
                 flex:50,
@@ -308,7 +314,7 @@ function HomeScreen(props) {
             </View>
 
         </View>
-        {/* NHA KINH 2 */}
+        {/* NHÀ KÍNH 2 */}
         <View style={{
             height: 375,
             marginHorizontal: 3,
@@ -329,7 +335,7 @@ function HomeScreen(props) {
                         marginTop: 3
                     }}   
                 >
-                    {status1==true&&<View style={{
+                    {status1==true?<View style={{
                         alignItems:'center',
                         flex:1,
                         justifyContent:'center',
@@ -340,7 +346,14 @@ function HomeScreen(props) {
                             fontWeight:'bold',
                             fontSize:16
                         }}>NHÀ 2 MẤT KẾT NỐI</Text>
-                    </View>}
+                    </View>:
+                    <TouchableOpacity style={{
+                        flex:1,
+                    }}
+                    onPress={()=>{
+                        navigate('NhaKinh2')
+                    }}/>
+                    }
                     {/* <View style={{ alignItems: 'flex-end', justifyContent: 'center', flex: 1 }}>
                         <TouchableOpacity
                             onPress={()=>navigate('NhaKinh2')}
@@ -359,7 +372,7 @@ function HomeScreen(props) {
                     color: 'black',
                     fontSize: 20,
                     fontWeight: 'bold'
-                }}>NHA KINH 2</Text>
+                }}>NHÀ KÍNH 2</Text>
             </View>
             <View style={{
                 flex:50,

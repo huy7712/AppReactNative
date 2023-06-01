@@ -10,4 +10,5 @@ export default {
     nitrogen:require('../image/nitrogen.png'),
     PhosPhoRus:require('../image/PhosPhoRus.png'),
     POTASSIUM:require('../image/POTASSIUM.png'),
+    Disconnected:require('../image/disconnected-icon.png')
 }

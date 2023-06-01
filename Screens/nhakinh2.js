@@ -315,12 +315,56 @@ function Nhakinh(props) {
             // funtion of navigate to/back
             const {navigate,goback}=navigation
 
+            const [status,setstatus]=useState(false)
+        const [status1,setstatus1]=useState(false)
+        socket.on('S-status', (data) => {
+            let jsonData = JSON.parse(data);
+            switch (jsonData.houseID) {
+                case 1:
+                    switch (jsonData.msg) {
+                        case 'Lora_Offline':
+                            setstatus(true)
+                            break
+                        case 'Lora_Online':
+                            setstatus(false)
+                            break
+                    }
+                    break
+                case 2:
+                    switch (jsonData.msg) {
+                        case 'Lora_Offline':
+                            setstatus1(true)
+                            break
+                        case 'Lora_Online':
+                            setstatus1(false)
+                            break
+                    }
+                    break
+            }
+        })
+
     return (
 
         <ScrollView style={{
             flex: 1,
             backgroundColor: '#F5F5F5',
         }}>
+            {status1==true&&<View style={{
+                flex: 1,
+                position: 'absolute',
+                width:395,
+                height:790,
+                zIndex:1,
+                alignItems:'center',
+                justifyContent:'center',
+                backgroundColor:'white',
+                opacity:0.9
+            }}>
+                <Image source={icons.Disconnected} style={{
+                    width: 130,
+                    height: 130
+                }} />
+            </View>}
             <TouchableOpacity style={{
                 // position:'absolute',
                 flexDirection: 'row',
@@ -335,7 +379,7 @@ function Nhakinh(props) {
                     color: 'black'
                 }}>Quay lại</Text>
             </TouchableOpacity>
-            <Text style={text.TextHeaderNhaKinh}>NHA KINH 2</Text>
+            <Text style={text.TextHeaderNhaKinh}>NHÀ KÍNH 2</Text>
             <View style={style.ViewWeather}>
                 <Icon
                     name={'cloud-sun'}
