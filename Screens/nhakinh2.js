@@ -88,7 +88,7 @@ function Nhakinh(props) {
     // GET MODE 
     const [getMode, setGetMode] = useState('0')
     useEffect(() => {
-        fetch('http://18.143.246.16:1234/api/getMode2')
+        fetch('https://raspi.iotgreenhouse.tech/api/getMode2')
             .then(response => response.json())
             .then(data => {
                 data.forEach((item) => {
@@ -173,7 +173,7 @@ function Nhakinh(props) {
         })
     }, [])
     useEffect(() => {
-        fetch('http://18.143.246.16:1234/api/getButton2')
+        fetch('https://raspi.iotgreenhouse.tech/api/getButton2')
             .then(response => response.json())
             .then(data => {
                 data.forEach((item) => {

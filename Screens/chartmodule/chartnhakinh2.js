@@ -70,7 +70,7 @@ function Chartnhakinh2() {
     const updatedK = [];
     const updatedTimeNPK = [];
     function fetchDataNPK() {
-        fetch('http://18.143.246.16:1234/api/npk_rs485Active')
+        fetch('https://raspi.iotgreenhouse.tech/api/npk_rs485Active')
             .then(response => response.json())
             .then(json => {
                 const data = json; // Lưu trữ dữ liệu vào biến trung gian
@@ -97,7 +97,7 @@ function Chartnhakinh2() {
             .catch(error => console.error(error));
     }
     useEffect(() => {
-        fetch('http://18.143.246.16:1234/api/npk_rs485Start')
+        fetch('https://raspi.iotgreenhouse.tech/api/npk_rs485Start')
             .then(response => response.json())
             .then(data => {
                 data.forEach((item) => {
@@ -137,7 +137,7 @@ function Chartnhakinh2() {
     const updatedValueChart = [];
     const updatedTimeChart = [];
     function fetchData() {
-        fetch('http://18.143.246.16:1234/api/lightI2C2Active')
+        fetch('https://raspi.iotgreenhouse.tech/api/lightI2C2Active')
             .then(response => response.json())
             .then(json => {
                 const data = json; // Lưu trữ dữ liệu vào biến trung gian
@@ -159,7 +159,7 @@ function Chartnhakinh2() {
             .catch(error => console.error(error));
     }
     useEffect(() => {
-        fetch('http://18.143.246.16:1234/api/lightI2C2Start')
+        fetch('https://raspi.iotgreenhouse.tech/api/lightI2C2Start')
             .then(response => response.json())
             .then(data => {
                 data.forEach((item) => {
@@ -202,7 +202,7 @@ function Chartnhakinh2() {
     const updatedTem = [];
     const updatedTimeI2C = [];
     function fetchDataI2C() {
-        fetch('http://18.143.246.16:1234/api/temHumI2C2Active')
+        fetch('https://raspi.iotgreenhouse.tech/api/temHumI2C2Active')
             .then(response => response.json())
             .then(json => {
                 const data = json; // Lưu trữ dữ liệu vào biến trung gian
@@ -226,7 +226,7 @@ function Chartnhakinh2() {
             .catch(error => console.error(error));
     }
     useEffect(() => {
-        fetch('http://18.143.246.16:1234/api/temHumI2C2Start')
+        fetch('https://raspi.iotgreenhouse.tech/api/temHumI2C2Start')
             .then(response => response.json())
             .then(data => {
                 data.forEach((item) => {
@@ -264,7 +264,7 @@ function Chartnhakinh2() {
     const updatedValuepH = [];
     const updatedTimepH = [];
     function fetchDataph() {
-        fetch('http://18.143.246.16:1234/api/ph_rs485Active')
+        fetch('https://raspi.iotgreenhouse.tech/api/ph_rs485Active')
             .then(response => response.json())
             .then(json => {
                 const data = json; // Lưu trữ dữ liệu vào biến trung gian
@@ -283,7 +283,7 @@ function Chartnhakinh2() {
             .catch(error => console.error(error));
     }
     useEffect(() => {
-        fetch('http://18.143.246.16:1234/api/ph_rs485Start')
+        fetch('https://raspi.iotgreenhouse.tech/api/ph_rs485Start')
             .then(response => response.json())
             .then(data => {
                 data.forEach((item) => {
@@ -319,7 +319,7 @@ function Chartnhakinh2() {
     const updatedValueadc = [];
     const updatedTimeadc = [];
     function fetchDataadc() {
-        fetch('http://18.143.246.16:1234/api/hum_rs485Active')
+        fetch('https://raspi.iotgreenhouse.tech/api/hum_rs485Active')
             .then(response => response.json())
             .then(json => {
                 const data = json; // Lưu trữ dữ liệu vào biến trung gian
@@ -338,7 +338,7 @@ function Chartnhakinh2() {
             .catch(error => console.error(error));
     }
     useEffect(() => {
-        fetch('http://18.143.246.16:1234/api/hum_rs485Start')
+        fetch('https://raspi.iotgreenhouse.tech/api/hum_rs485Start')
             .then(response => response.json())
             .then(data => {
                 data.forEach((item) => {

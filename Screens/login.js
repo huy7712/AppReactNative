@@ -43,7 +43,7 @@ function LoginSceens(props) {
 
 
   useEffect(() => {
-    fetch('http://18.143.246.16:1234/api/user')
+    fetch('https://raspi.iotgreenhouse.tech/api/user')
       .then(response => response.json())
       .then(json => setData(json))
       .catch(error => console.error(error));
