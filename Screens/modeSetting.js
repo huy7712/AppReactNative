@@ -4,9 +4,15 @@ import { Picker } from '@react-native-picker/picker'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { UIHeader } from '../components'
 import { ModeContext } from './getMode'
-
+import io from "socket.io-client"
 
 function ModeScreen(props) {
+    socket.emit('ResendValue1','a')
+    // this.socket = io ("http://192.168.192.233:1234/", {jsonp:false})
+          // naivgation
+          const {navigation,route}=props
+          // funtion of navigate to/back
+          const {navigate,goback}=navigation
 
     const [selectedValue, setSelectedValue] = useState('1')
     const [getMode1, setGetMode1] = useState('toggle-off')
@@ -151,6 +157,7 @@ function ModeScreen(props) {
     useEffect (()=>{
         socket.on('defaultValue',(data)=>{
             let jsonData = JSON.parse(data)
+            console.log(jsonData)
             SetGetViewhumlow1(jsonData.lowHum1)
             SetGetViewhumhight1(jsonData.highHum1)
             SetGetViewhumlow2(jsonData.lowHum2)
@@ -179,12 +186,27 @@ function ModeScreen(props) {
             SetGettemhight2(jsonData.highTem2)
         })
     })
+        
 
     return <View style={{
         flex: 1,
         backgroundColor: '#F5F5F5',
     }}>
         <UIHeader title={"CÀI ĐẶT NGƯỠNG"} />
+        <TouchableOpacity style={{
+                // position:'absolute',
+                flexDirection: 'row',
+                alignItems: 'center'
+            }}
+                onPress={() => {
+                    navigate('SettingScreen')
+                }}
+            >
+                <Icon name={'chevron-left'} color={'black'} size={20}></Icon>
+                <Text style={{
+                    color: 'black'
+                }}>Quay lại</Text>
+            </TouchableOpacity>
         <View style={{
             borderWidth: 2,
             alignSelf: 'center',
@@ -738,8 +760,9 @@ function ModeScreen(props) {
                     Alert.alert('Cảnh Báo:','Có 1 ngưỡng đang trùng nhau')
                 }
             else{
+            // socket.emit('getAutoValue', '{"lowHum1":' + gethumlow1 + ',"highHum1":' + gethumhight1 + ',"lowHum2":' + gethumlow2 + ',"highHum2":' + gethumhight2 + ',"lowLight1":' + getlightlow1 + ',"highLight1":' + getlighthight1 + ',"lowLight2":' + getlightlow2 + ',"highLight2":' + getlighthight2 + ',"lowTem1":' + gettemlow1 + ',"highTem1":' + gettemhight1 + ',"lowTem2":' + gettemlow2 + ',"highTem2":' + gettemhight2 + '}')
             socket.emit('getAutoValue', '{"lowHum1":' + gethumlow1 + ',"highHum1":' + gethumhight1 + ',"lowHum2":' + gethumlow2 + ',"highHum2":' + gethumhight2 + ',"lowLight1":' + getlightlow1 + ',"highLight1":' + getlighthight1 + ',"lowLight2":' + getlightlow2 + ',"highLight2":' + getlighthight2 + ',"lowTem1":' + gettemlow1 + ',"highTem1":' + gettemhight1 + ',"lowTem2":' + gettemlow2 + ',"highTem2":' + gettemhight2 + '}')
-            console.log('{"lowHum1":' + gethumlow1 + ',"highHum1":' + gethumhight1 + ',"lowHum2":' + gethumlow2 + ',"highHum2":' + gethumhight2 + ',"lowLight1":' + getlightlow1 + ',"highLight1":' + getlighthight1 + ',"lowLight2":' + getlightlow2 + ',"highLight2":' + getlighthight2 + ',"lowTem1":' + gettemlow1 + ',"highTem1":' + gettemhight1 + ',"lowTem2":' + gettemlow2 + ',"highTem2":' + gettemhight2 + '}')
+            // console.log('{"lowHum1":' + gethumlow1 + ',"highHum1":' + gethumhight1 + ',"lowHum2":' + gethumlow2 + ',"highHum2":' + gethumhight2 + ',"lowLight1":' + getlightlow1 + ',"highLight1":' + getlighthight1 + ',"lowLight2":' + getlightlow2 + ',"highLight2":' + getlighthight2 + ',"lowTem1":' + gettemlow1 + ',"highTem1":' + gettemhight1 + ',"lowTem2":' + gettemlow2 + ',"highTem2":' + gettemhight2 + '}')
         }
         }}
         style={{

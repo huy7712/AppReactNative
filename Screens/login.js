@@ -43,7 +43,7 @@ function LoginSceens(props) {
 
 
   useEffect(() => {
-    fetch('https://raspi.iotgreenhouse.tech/api/user')
+    fetch('http://18.143.246.16:1234/api/user')
       .then(response => response.json())
       .then(json => setData(json))
       .catch(error => console.error(error));
@@ -113,8 +113,11 @@ function LoginSceens(props) {
                         }              
                     }
                     onEndEditing={()=>{
-                        setUser(data.find(item=> item.email===email)) 
-                        // console.log(data.find(item=> item.email===email))      
+                        // setUser(data.find(item=> item.email===email)) 
+                        // console.log(data.find(item=> item.email===email))
+                        if (data.find(item=> item.email===email)){
+                            setUser(data.find(item=> item.email===email))
+                        }    
                     }}
                     
                     keyboardType="email-address">

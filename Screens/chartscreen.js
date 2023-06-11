@@ -2,7 +2,7 @@ import React, { useState, useEffect, createContext, useContext } from 'react'
 import { images, icons } from '../constants/index'
 import { TextInput, Text, View, Image, ImageBackground, TouchableOpacity, FlatList, TouchableWithoutFeedback, Platform, Alert, ScrollView } from 'react-native'
 import { isValidatePass, isValidating } from '../utilies/validating'
-import Icon from 'react-native-vector-icons/FontAwesome5'
+import Spinner from 'react-native-loading-spinner-overlay/lib'
 import moment from 'moment'
 import style from '../components/style'
 import text from '../components/text'
@@ -18,6 +18,11 @@ function ChartScreens() {
     const [getADC1,setGetADC1]=useState([0])
     const [gettimeADC1,setGettimeADC1]=useState([0])
     const [onPressADC1,setonPressADC1]=useState(false)
+
+    const [loading1, setLoading1] = useState(false);
+    const [loading2, setLoading2] = useState(false);
+    const [loading3, setLoading3] = useState(false);
+    const [loading4, setLoading4] = useState(false);
 
 // ADC
 // ADC
@@ -39,7 +44,7 @@ const [selectrueadc, setselectrueadc] = useState(true)
     const updatedValueadc = [];
     const updatedTimeadc = [];
     function fetchDataadc() {
-        fetch('https://raspi.iotgreenhouse.tech/api/adc1Active')
+        fetch('http://18.143.246.16:1234/api/adc1Active')
             .then(response => response.json())
             .then(json => {
                 const data = json; // Lưu trữ dữ liệu vào biến trung gian
@@ -58,7 +63,7 @@ const [selectrueadc, setselectrueadc] = useState(true)
             .catch(error => console.error(error));
     }
     useEffect(() => {
-        fetch('https://raspi.iotgreenhouse.tech/api/adc1Start')
+        fetch('http://18.143.246.16:1234/api/adc1Start')
             .then(response => response.json())
             .then(data => {
                 data.forEach((item) => {
@@ -96,7 +101,7 @@ const [selectrue, setselectrue] = useState(true)
     const updatedValueChart = [];
     const updatedTimeChart = [];
     function fetchData() {
-        fetch('https://raspi.iotgreenhouse.tech/api/lightI2C1Active')
+        fetch('http://18.143.246.16:1234/api/lightI2C1Active')
             .then(response => response.json())
             .then(json => {
                 const data = json; // Lưu trữ dữ liệu vào biến trung gian
@@ -118,7 +123,7 @@ const [selectrue, setselectrue] = useState(true)
             .catch(error => console.error(error));
     }
     useEffect(() => {
-        fetch('https://raspi.iotgreenhouse.tech/api/lightI2C1Start')
+        fetch('http://18.143.246.16:1234/api/lightI2C1Start')
             .then(response => response.json())
             .then(data => {
                 data.forEach((item) => {
@@ -164,7 +169,7 @@ const [selectrueI2C, setselectrueI2C] = useState(true)
     const updatedTem = [];
     const updatedTimeI2C = [];
     function fetchDataI2C() {
-        fetch('https://raspi.iotgreenhouse.tech/api/temHumI2C1Active')
+        fetch('http://18.143.246.16:1234/api/temHumI2C1Active')
             .then(response => response.json())
             .then(json => {
                 const data = json; // Lưu trữ dữ liệu vào biến trung gian
@@ -188,7 +193,7 @@ const [selectrueI2C, setselectrueI2C] = useState(true)
             .catch(error => console.error(error));
     }
     useEffect(() => {
-        fetch('https://raspi.iotgreenhouse.tech/api/temHumI2C1Start')
+        fetch('http://18.143.246.16:1234/api/temHumI2C1Start')
             .then(response => response.json())
             .then(data => {
                 data.forEach((item) => {
@@ -232,6 +237,11 @@ const [selectrueI2C, setselectrueI2C] = useState(true)
                 horizontal
             >
                 <ScrollView style={{ flexDirection: 'row' }} horizontal>
+                <Spinner
+                        visible={loading1 || loading2 || loading3 || loading4}
+                        textContent={'Waiting...'}
+                        textStyle={{ color: 'red' }}
+                    />
                     {/*  */}
                     {/*  */}
                     {/* Nhiệt Độ */}
@@ -247,6 +257,12 @@ const [selectrueI2C, setselectrueI2C] = useState(true)
                             setonPressHum(false)
                             setonPressLight(false)
                             setonPressadc(false)
+                            setLoading1(true)
+                            {
+                                setTimeout(() => {
+                                    setLoading1(false)
+                                }, 300)
+                            }
                         }}
                     >
                         <Text
@@ -270,6 +286,12 @@ const [selectrueI2C, setselectrueI2C] = useState(true)
                             setonPressTem(false)
                             setonPressLight(false)
                             setonPressadc(false)
+                            setLoading2(true)
+                            {
+                                setTimeout(() => {
+                                    setLoading2(false)
+                                }, 300)
+                            }
                         }}
                     >
                         <Text
@@ -293,6 +315,12 @@ const [selectrueI2C, setselectrueI2C] = useState(true)
                             setonPressTem(false)
                             setonPressHum(false)
                             setonPressadc(false)
+                            setLoading3(true)
+                            {
+                                setTimeout(() => {
+                                    setLoading3(false)
+                                }, 300)
+                            }
                         }}
                     >
                         <Text
@@ -316,6 +344,12 @@ const [selectrueI2C, setselectrueI2C] = useState(true)
                             setonPressLight(false)
                             setonPressTem(false)
                             setonPressHum(false)
+                            setLoading4(true)
+                            {
+                                setTimeout(() => {
+                                    setLoading4(false)
+                                }, 300)
+                            }
                         }}
                     >
                         <Text

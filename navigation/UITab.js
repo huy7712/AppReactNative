@@ -39,7 +39,7 @@ function UITabs(){
         <Tab.Screen name={'HomeScreen'} component={HomeScreen}/>
         <Tab.Screen name={'Chart'} component={ChartScreens}/>
         <Tab.Screen name={'SettingScreen'} component={SettingScreen}/>
-        {/* <Tab.Screen name={'Profile'} component={Profiles}/> */}
+        <Tab.Screen name={'Profile'} component={Profiles}/>
     </Tab.Navigator>
 }
 

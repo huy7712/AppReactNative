@@ -3,7 +3,7 @@ import { DataContext } from './getdata';
 import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
 import { images } from '../constants';
 
-const Profile = () => {
+const Profile = (props) => {
   const { profileData } = useContext(DataContext);
   // Sử dụng dữ liệu profileData trong màn hình profiles
   // { username: 'JohnDoe', email: 'johndoe@example.com' }
@@ -34,7 +34,7 @@ const Profile = () => {
           color: 'black',
           fontSize: 20,
           fontWeight: 'bold'
-        }}>THONG TIN DANG NHAP</Text>
+        }}>THÔNG TIN ĐĂNG NHẬP</Text>
       </View>
       <View style={{
         backgroundColor: 'red',

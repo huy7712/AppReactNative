@@ -10,6 +10,9 @@ import { Picker } from '@react-native-picker/picker'
 
 
 function Setting(props) {
+
+    socket.emit('ResendValue2','a')
+
     const [showElement, setShowElement] = useState(false)
     const [showElement2, setShowElement2] = useState(false)
     const [i2cAddresses, setI2CAddresses] = useState([]);
